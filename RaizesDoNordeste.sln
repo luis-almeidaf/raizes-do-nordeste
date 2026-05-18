@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{878AE093-652C-4FB9-BAA0-0AA9C0E73786}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaizesDoNordeste.Api", "src\RaizesDoNordeste.Api\RaizesDoNordeste.Api.csproj", "{970AB06D-AD9A-4BB0-A82E-80B9B5B149F1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{970AB06D-AD9A-4BB0-A82E-80B9B5B149F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{970AB06D-AD9A-4BB0-A82E-80B9B5B149F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{970AB06D-AD9A-4BB0-A82E-80B9B5B149F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{970AB06D-AD9A-4BB0-A82E-80B9B5B149F1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{970AB06D-AD9A-4BB0-A82E-80B9B5B149F1} = {878AE093-652C-4FB9-BAA0-0AA9C0E73786}
+	EndGlobalSection
+EndGlobal
