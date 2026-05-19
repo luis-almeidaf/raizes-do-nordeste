@@ -1,26 +1,44 @@
-using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using RaizesDoNordeste.Api.Filters;
 using RaizesDoNordeste.Application;
 using RaizesDoNordeste.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Todos os serviços antes do Build()
 builder.Services.AddControllers();
-builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 builder.Services.AddOpenApi();
-builder.Services.AddSwaggerGen();
 builder.Services.AddMvc(options => options.Filters.Add<ExceptionFilter>());
 builder.Services.AddInfraestructure(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
 builder.Services.AddHttpContextAccessor();
 
-var signingKey = builder.Configuration.GetValue<string>("Settings:Jwt:SigningKey");
+builder.Services.AddSwaggerGen(config =>
+{
+    const string bearer = "Bearer";
+    config.AddSecurityDefinition(bearer, new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Digite o token JWT"
+    });
 
+    config.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecuritySchemeReference(bearer),
+            new List<string>(Array.Empty<string>())
+        }
+    });
+});
+
+var signingKey = builder.Configuration.GetValue<string>("Settings:Jwt:SigningKey");
 builder.Services.AddAuthentication(config =>
 {
     config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -56,6 +74,4 @@ async Task MigrateDatabase()
     await DatabaseMigration.MigrateDatabase(scope.ServiceProvider);
 }
 
-public partial class Program
-{
-}
+public partial class Program { }

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.EntityFrameworkCore;
 using RaizesDoNordeste.Application.Common.Responses;
 using RaizesDoNordeste.Exceptions;
 using RaizesDoNordeste.Exceptions.ExceptionsBase;
@@ -11,7 +10,7 @@ public class ExceptionFilter : IExceptionFilter
 {
     public void OnException(ExceptionContext context)
     {
-        if (context.Exception is RaizedDoNordesteException)
+        if (context.Exception is RaizesDoNordesteException)
             HandleProjectException(context);
         else
             ThrowUnknownError(context);
@@ -19,10 +18,10 @@ public class ExceptionFilter : IExceptionFilter
 
     private static void HandleProjectException(ExceptionContext context)
     {
-        var raizesdDoNordesteException = (RaizedDoNordesteException)context.Exception;
-        var errorResponse = new ErroBaseResponse(raizesdDoNordesteException.GetErrors());
-        
-        context.HttpContext.Response.StatusCode = raizesdDoNordesteException.StatusCode;
+        var raizesDoNordesteException = (RaizesDoNordesteException)context.Exception;
+        var errorResponse = new ErroBaseResponse(raizesDoNordesteException.GetErrors());
+
+        context.HttpContext.Response.StatusCode = raizesDoNordesteException.StatusCode;
         context.Result = new ObjectResult(errorResponse);
     }
 
