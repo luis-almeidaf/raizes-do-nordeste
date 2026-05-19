@@ -1,4 +1,4 @@
-namespace RaizesDoNordeste.Application.Features.Auth.CadastrarUsuarioCommand;
+namespace RaizesDoNordeste.Application.Features.Auth.Commands.CadastrarUsuarioCommand;
 
 public class CadastrarUsuarioRequest
 {

@@ -7,7 +7,7 @@ using RaizesDoNordeste.Domain.Security.Tokens;
 using RaizesDoNordeste.Exceptions;
 using RaizesDoNordeste.Exceptions.ExceptionsBase;
 
-namespace RaizesDoNordeste.Application.Features.Auth.CadastrarUsuarioCommand;
+namespace RaizesDoNordeste.Application.Features.Auth.Commands.CadastrarUsuarioCommand;
 
 public class CadastrarUsuarioCommandHandler(
     IUnitOfWork unitOfWork,
@@ -15,7 +15,7 @@ public class CadastrarUsuarioCommandHandler(
     IAccessTokenGenerator tokenGenerator,
     IRefreshTokenWriteOnlyRepository refreshTokenRepository,
     IUsuarioReadOnlyRepository usuarioReadOnlyRepository,
-    IUsuarioWriteOnlyRepository usuarioWriteOnlyRepository) 
+    IUsuarioWriteOnlyRepository usuarioWriteOnlyRepository)
     : IRequestHandler<CadastrarUsuarioCommand, CadastrarUsuarioResponse>
 {
     public async Task<CadastrarUsuarioResponse> Handle(CadastrarUsuarioCommand request,
@@ -24,7 +24,7 @@ public class CadastrarUsuarioCommandHandler(
         await Validate(request);
 
         var usuario = Usuario.Criar(request.Nome, request.Sobrenome, request.Email);
-        usuario.DefinirSenha(passwordEncrypter.Criptografar(usuario.Senha));
+        usuario.DefinirSenha(passwordEncrypter.Criptografar(request.Senha));
 
         var refreshToken = RefreshToken.Criar(tokenGenerator.GerarRefreshToken(), usuario.Id);
 
@@ -32,12 +32,12 @@ public class CadastrarUsuarioCommandHandler(
         await usuarioWriteOnlyRepository.Cadastrar(usuario);
         await unitOfWork.Commit();
 
-        return new CadastrarUsuarioResponse()
+        return new CadastrarUsuarioResponse
         {
             Id = usuario.Id,
             Nome = usuario.Nome,
             Token = tokenGenerator.GerarTokenJwt(usuario),
-            RefreshToken = refreshToken.Token,
+            RefreshToken = refreshToken.Token
         };
     }
 

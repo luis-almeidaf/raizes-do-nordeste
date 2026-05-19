@@ -5,5 +5,13 @@ namespace RaizesDoNordeste.Infrastructure.Security.Cryptography;
 
 public class BCrypt : IPasswordEncrypter
 {
-    public string Criptografar(string password) => BC.HashPassword(password);
+    public string Criptografar(string password)
+    {
+        return BC.HashPassword(password);
+    }
+
+    public bool VerificarSenha(string senha, string senhaHash)
+    {
+        return BC.Verify(senha, senhaHash);
+    }
 }

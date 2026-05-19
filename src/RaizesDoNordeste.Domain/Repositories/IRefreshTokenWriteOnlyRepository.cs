@@ -1,6 +1,9 @@
+using RaizesDoNordeste.Domain.Entities;
+
 namespace RaizesDoNordeste.Domain.Repositories;
 
 public interface IRefreshTokenWriteOnlyRepository
 {
-    Task Salvar(Entities.RefreshToken refreshToken);
+    Task Salvar(RefreshToken refreshToken);
+    Task Remover(Guid usuarioId);
 }

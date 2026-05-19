@@ -86,5 +86,11 @@ namespace RaizesDoNordeste.Exceptions {
                 return ResourceManager.GetString("ERRO_DESCONHECIDO", resourceCulture);
             }
         }
+        
+        public static string LOGIN_INVALIDO {
+            get {
+                return ResourceManager.GetString("LOGIN_INVALIDO", resourceCulture);
+            }
+        }
     }
 }

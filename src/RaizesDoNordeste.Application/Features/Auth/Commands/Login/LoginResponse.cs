@@ -1,8 +1,8 @@
-namespace RaizesDoNordeste.Application.Features.Auth.CadastrarUsuarioCommand;
+namespace RaizesDoNordeste.Application.Features.Auth.Commands.Login;
 
-public class CadastrarUsuarioResponse
+public class LoginResponse
 {
-    public Guid Id {get; set;}
+    public Guid UsuarioId { get; set; }
     public string Nome { get; set; } = string.Empty;
     public string Token { get; set; } = string.Empty;
     public string RefreshToken { get; set; } = string.Empty;
