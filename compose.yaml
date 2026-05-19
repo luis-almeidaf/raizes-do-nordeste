@@ -9,7 +9,7 @@
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:5298
-      - ConnectionStrings__Connection=Server=db;Database=master;User Id=sa;Password=p@55w0rd;TrustServerCertificate=True
+      - ConnectionStrings__Connection=Server=db;Database=RaizesDoNordeste;User Id=sa;Password=p@55w0rd;TrustServerCertificate=True
       - Settings__Jwt__SigningKey=Ws48-h0@TSM1RK6\\y£rIPyXIVt+mX2Y$
       - Settings__Jwt__ExpiresMinutes=1000
 
