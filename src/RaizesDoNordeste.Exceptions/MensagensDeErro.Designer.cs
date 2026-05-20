@@ -92,5 +92,11 @@ namespace RaizesDoNordeste.Exceptions {
                 return ResourceManager.GetString("LOGIN_INVALIDO", resourceCulture);
             }
         }
+        
+        public static string REFRESH_TOKEN_EXPIRADO {
+            get {
+                return ResourceManager.GetString("REFRESH_TOKEN_EXPIRADO", resourceCulture);
+            }
+        }
     }
 }

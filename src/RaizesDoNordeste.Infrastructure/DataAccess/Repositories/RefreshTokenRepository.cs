@@ -4,12 +4,16 @@ using RaizesDoNordeste.Domain.Repositories;
 
 namespace RaizesDoNordeste.Infrastructure.DataAccess.Repositories;
 
-public class RefreshTokenRepository(RaizesDoNordesteDbContext dbContext) : IRefreshTokenWriteOnlyRepository
+public class RefreshTokenRepository(RaizesDoNordesteDbContext dbContext)
+    : IRefreshTokenReadOnlyRepository, IRefreshTokenWriteOnlyRepository
 {
-    public async Task Salvar(RefreshToken refreshToken)
+    public async Task<RefreshToken?> BuscarToken(string refreshToken)
     {
-        await dbContext.AddAsync(refreshToken);
+        return await dbContext.RefreshTokens.Include(rt => rt.Usuario)
+            .FirstOrDefaultAsync(rt => rt.Token == refreshToken);
     }
+
+    public async Task Salvar(RefreshToken refreshToken) => await dbContext.AddAsync(refreshToken);
 
     public async Task Remover(Guid usuarioId)
     {

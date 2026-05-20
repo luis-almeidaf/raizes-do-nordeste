@@ -12,16 +12,17 @@ namespace RaizesDoNordeste.Infrastructure;
 
 public static class DependencyInjectionExtension
 {
-    public static void AddInfraestructure(this IServiceCollection services, IConfiguration configuration)
+    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         AddBcrypt(services);
         AddDbContext(services, configuration);
         AddRepositories(services);
         AddToken(services, configuration);
     }
-    
-    private static void AddBcrypt(IServiceCollection services) => services.AddScoped<IPasswordEncrypter, Security.Cryptography.BCrypt>();
-    
+
+    private static void AddBcrypt(IServiceCollection services) =>
+        services.AddScoped<IPasswordEncrypter, Security.Cryptography.BCrypt>();
+
     private static void AddToken(IServiceCollection services, IConfiguration configuration)
     {
         var expirationTimeMinutes = configuration.GetValue<uint>("Settings:Jwt:ExpiresMinutes");
@@ -32,7 +33,7 @@ public static class DependencyInjectionExtension
 
     private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString(("Connection"));
+        var connectionString = configuration.GetConnectionString("Connection");
         services.AddDbContext<RaizesDoNordesteDbContext>(config => config.UseSqlServer(connectionString));
     }
 
@@ -41,6 +42,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IUnitOfWork, UnitOfOWork>();
         services.AddScoped<IUsuarioWriteOnlyRepository, UsuarioRepository>();
         services.AddScoped<IUsuarioReadOnlyRepository, UsuarioRepository>();
-        services.AddScoped < IRefreshTokenWriteOnlyRepository,RefreshTokenRepository>();
+        services.AddScoped<IRefreshTokenReadOnlyRepository, RefreshTokenRepository>();
+        services.AddScoped<IRefreshTokenWriteOnlyRepository, RefreshTokenRepository>();
     }
 }

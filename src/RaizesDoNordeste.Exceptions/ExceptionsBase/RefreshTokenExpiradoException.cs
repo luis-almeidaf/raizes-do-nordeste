@@ -2,7 +2,7 @@ using System.Net;
 
 namespace RaizesDoNordeste.Exceptions.ExceptionsBase;
 
-public class LoginInvalidoException() : RaizesDoNordesteException(MensagensDeErro.LOGIN_INVALIDO)
+public class RefreshTokenExpiradoException() : RaizesDoNordesteException(MensagensDeErro.REFRESH_TOKEN_EXPIRADO)
 {
     public override int StatusCode => (int)HttpStatusCode.Unauthorized;
 

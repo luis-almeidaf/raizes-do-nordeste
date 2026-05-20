@@ -6,8 +6,5 @@ public class ErroDeValidacaoException(List<string> erros) : RaizesDoNordesteExce
 {
     public override int StatusCode => (int)HttpStatusCode.BadRequest;
 
-    public override List<string> GetErrors()
-    {
-        return erros;
-    }
+    public override List<string> GetErrors() => erros;
 }
