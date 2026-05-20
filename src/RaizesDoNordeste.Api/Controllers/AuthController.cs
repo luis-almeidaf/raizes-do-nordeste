@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RaizesDoNordeste.Application.Common.Responses;
 using RaizesDoNordeste.Application.Features.Auth.Commands.CadastrarUsuarioCommand;
 using RaizesDoNordeste.Application.Features.Auth.Commands.Login;
+using RaizesDoNordeste.Application.Features.Auth.Commands.RefreshTokenLogin;
 
 namespace RaizesDoNordeste.Api.Controllers;
 
@@ -35,6 +36,19 @@ public class AuthController(IMediator mediator) : ControllerBase
         {
             Email = request.Email,
             Senha = request.Senha
+        });
+
+        return Ok(response);
+    }
+
+    [HttpPost("refresh-token/")]
+    [ProducesResponseType(typeof(RefreshTokenLoginResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> Login([FromBody] RefreshTokenLoginRequest request)
+    {
+        var response = await mediator.Send(new RefreshTokenLoginCommand
+        {
+            RefreshToken = request.RefreshToken
         });
 
         return Ok(response);
