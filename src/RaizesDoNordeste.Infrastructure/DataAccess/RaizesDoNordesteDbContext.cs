@@ -7,7 +7,8 @@ public class RaizesDoNordesteDbContext(DbContextOptions options) : DbContext(opt
 {
     public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
-    
+    public DbSet<Unidade> Unidade { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -16,7 +17,7 @@ public class RaizesDoNordesteDbContext(DbContextOptions options) : DbContext(opt
         {
             entity.HasKey(usuario => usuario.Id);
             entity.HasOne(usuario => usuario.Unidade)
-                .WithMany(unidade => unidade.Usuarios)
+                .WithMany(unidade => unidade.Funcionarios)
                 .HasForeignKey(usuario => usuario.UnidadeId);
         });
 
