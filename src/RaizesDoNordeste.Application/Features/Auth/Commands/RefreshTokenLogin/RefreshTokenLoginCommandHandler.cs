@@ -1,6 +1,7 @@
 using MediatR;
 using RaizesDoNordeste.Domain.Entities;
 using RaizesDoNordeste.Domain.Repositories;
+using RaizesDoNordeste.Domain.Repositories.RefreshToken;
 using RaizesDoNordeste.Domain.Security.Tokens;
 using RaizesDoNordeste.Exceptions.ExceptionsBase;
 

@@ -2,6 +2,8 @@ using FluentValidation.Results;
 using MediatR;
 using RaizesDoNordeste.Domain.Entities;
 using RaizesDoNordeste.Domain.Repositories;
+using RaizesDoNordeste.Domain.Repositories.RefreshToken;
+using RaizesDoNordeste.Domain.Repositories.Usuario;
 using RaizesDoNordeste.Domain.Security.Criptography;
 using RaizesDoNordeste.Domain.Security.Tokens;
 using RaizesDoNordeste.Exceptions;

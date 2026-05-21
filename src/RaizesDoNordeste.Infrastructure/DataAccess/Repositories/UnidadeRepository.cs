@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RaizesDoNordeste.Domain.Entities;
-using RaizesDoNordeste.Domain.Repositories;
+using RaizesDoNordeste.Domain.Repositories.Unidade;
 
 namespace RaizesDoNordeste.Infrastructure.DataAccess.Repositories;
 

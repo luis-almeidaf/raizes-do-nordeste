@@ -1,6 +1,6 @@
 using MediatR;
 using RaizesDoNordeste.Application.Features.Unidades.Queries.Responses;
-using RaizesDoNordeste.Domain.Repositories;
+using RaizesDoNordeste.Domain.Repositories.Unidade;
 
 namespace RaizesDoNordeste.Application.Features.Unidades.Queries;
 
