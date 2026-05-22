@@ -11,20 +11,17 @@ public class Usuario
     public string Senha { get; private set; } = string.Empty;
     public Role Role { get; private set; }
 
-    public Guid? UnidadeId { get; init; }
+    public int? UnidadeId { get; init; }
     public Unidade? Unidade { get; init; }
 
-    public static Usuario Criar(string nome, string sobrenome, string email)
+    public static Usuario Criar(string nome, string sobrenome, string email) => new()
     {
-        return new Usuario
-        {
-            Id = Guid.NewGuid(),
-            Nome = nome,
-            Sobrenome = sobrenome,
-            Email = email,
-            Role = Role.Cliente,
-        };
-    }
+        Id = Guid.NewGuid(),
+        Nome = nome,
+        Sobrenome = sobrenome,
+        Email = email,
+        Role = Role.Cliente
+    };
 
     public void DefinirSenha(string senhaHash) => Senha = senhaHash;
 }
