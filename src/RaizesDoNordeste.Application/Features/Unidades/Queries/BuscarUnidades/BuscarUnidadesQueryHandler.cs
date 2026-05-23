@@ -1,8 +1,8 @@
 using MediatR;
-using RaizesDoNordeste.Application.Features.Unidades.Queries.Responses;
+using RaizesDoNordeste.Application.Features.Unidades.Queries.BuscarUnidades.Responses;
 using RaizesDoNordeste.Domain.Repositories.Unidade;
 
-namespace RaizesDoNordeste.Application.Features.Unidades.Queries;
+namespace RaizesDoNordeste.Application.Features.Unidades.Queries.BuscarUnidades;
 
 public class BuscarUnidadesQueryHandler(IUnidadeReadOnlyRepository unidadeRepository)
     : IRequestHandler<BuscarUnidadesQuery, BuscarUnidadesResponse>

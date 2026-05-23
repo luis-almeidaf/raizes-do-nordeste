@@ -51,4 +51,7 @@
     <data name="REFRESH_TOKEN_EXPIRADO" xml:space="preserve">
         <value>O refresh token está expirado.</value>
     </data>
+    <data name="UNIDADE_NAO_ENCONTRADA" xml:space="preserve">
+        <value>Unidade não encontrada.</value>
+    </data>
 </root>

@@ -98,5 +98,11 @@ namespace RaizesDoNordeste.Exceptions {
                 return ResourceManager.GetString("REFRESH_TOKEN_EXPIRADO", resourceCulture);
             }
         }
+        
+        public static string UNIDADE_NAO_ENCONTRADA {
+            get {
+                return ResourceManager.GetString("UNIDADE_NAO_ENCONTRADA", resourceCulture);
+            }
+        }
     }
 }

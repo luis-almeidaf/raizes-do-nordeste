@@ -1,4 +1,4 @@
-namespace RaizesDoNordeste.Application.Features.Unidades.Queries.Responses;
+namespace RaizesDoNordeste.Application.Features.Unidades.Queries.BuscarUnidades.Responses;
 
 public class UnidadeResponse
 {

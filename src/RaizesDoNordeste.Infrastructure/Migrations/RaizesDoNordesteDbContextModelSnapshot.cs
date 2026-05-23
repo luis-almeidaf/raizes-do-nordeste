@@ -253,11 +253,13 @@ namespace RaizesDoNordeste.Infrastructure.Migrations
 
             modelBuilder.Entity("RaizesDoNordeste.Domain.Entities.Estoque", b =>
                 {
-                    b.HasOne("RaizesDoNordeste.Domain.Entities.Unidade", null)
+                    b.HasOne("RaizesDoNordeste.Domain.Entities.Unidade", "Unidade")
                         .WithOne("Estoque")
                         .HasForeignKey("RaizesDoNordeste.Domain.Entities.Estoque", "UnidadeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Unidade");
                 });
 
             modelBuilder.Entity("RaizesDoNordeste.Domain.Entities.ItemEstoque", b =>
@@ -265,7 +267,7 @@ namespace RaizesDoNordeste.Infrastructure.Migrations
                     b.HasOne("RaizesDoNordeste.Domain.Entities.Estoque", "Estoque")
                         .WithMany()
                         .HasForeignKey("EstoqueId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("RaizesDoNordeste.Domain.Entities.Produto", "Produto")

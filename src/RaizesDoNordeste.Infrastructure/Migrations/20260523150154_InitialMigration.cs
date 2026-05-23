@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RaizesDoNordeste.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigrations : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -97,8 +97,7 @@ namespace RaizesDoNordeste.Infrastructure.Migrations
                         name: "FK_ItensEstoque_Estoque_EstoqueId",
                         column: x => x.EstoqueId,
                         principalTable: "Estoque",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ItensEstoque_Produto_ProdutoId",
                         column: x => x.ProdutoId,

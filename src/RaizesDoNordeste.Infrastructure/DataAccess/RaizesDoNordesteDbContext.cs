@@ -8,6 +8,9 @@ public class RaizesDoNordesteDbContext(DbContextOptions options) : DbContext(opt
     public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<Unidade> Unidade { get; set; }
+    public DbSet<Estoque> Estoque { get; set; }
+    public DbSet<Produto> Produto { get; set; }
+    public DbSet<ItemEstoque> ItemEstoque { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -25,13 +28,17 @@ public class RaizesDoNordesteDbContext(DbContextOptions options) : DbContext(opt
         {
             entity.HasKey(unidade => unidade.Id);
             entity.HasOne(unidade => unidade.Estoque)
-                .WithOne()
+                .WithOne(estoque => estoque.Unidade)
                 .HasForeignKey<Estoque>(estoque => estoque.UnidadeId);
         });
 
         modelBuilder.Entity<ItemEstoque>(entity =>
         {
             entity.HasKey(item => item.Id);
+            entity.HasOne(item => item.Estoque)
+                .WithMany()
+                .HasForeignKey(item => item.EstoqueId)
+                .OnDelete(DeleteBehavior.NoAction);
             entity.HasOne(item => item.Produto)
                 .WithMany()
                 .HasForeignKey(item => item.ProdutoId)
