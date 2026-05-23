@@ -5,6 +5,8 @@ public class Estoque
     public Guid Id { get; set; }
     public int UnidadeId { get; set; }
 
+    public Unidade Unidade { get; set; }
+
     private ICollection<ItemEstoque> Itens { get; } = [];
 
     public void AdicionarItemAoEstoque(int produtoId, int quantidade)
