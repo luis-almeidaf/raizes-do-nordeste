@@ -18,7 +18,7 @@ public class BuscarCardapioQueryHandler(IUnidadeReadOnlyRepository repository)
         var cardapio = new List<ItemCardapioResponse>(itensEstoque.Count);
 
         cardapio.AddRange(itensEstoque.Select(item =>
-            ItemCardapioResponse.Criar(item.ProdutoId, item.Produto.Nome, item.Produto.Descricao)));
+            ItemCardapioResponse.Criar(item.ProdutoId, item.Produto.Nome, item.Produto.Descricao, item.Produto.Preco)));
 
         return BuscarCardapioResponse.Criar(request.UnidadeId, unidadeNome, cardapio);
     }
