@@ -16,5 +16,6 @@ public class UnidadeRepository(RaizesDoNordesteDbContext dbContext) : IUnidadeRe
         .Include(item => item.Estoque)
         .ThenInclude(estoque => estoque.Unidade)
         .Include(itemEstoque => itemEstoque.Produto)
+        .OrderBy(itemEstoque => itemEstoque.ProdutoId)
         .ToListAsync();
 }
