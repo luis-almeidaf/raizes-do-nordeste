@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RaizesDoNordeste.Infrastructure.DataAccess;
 
@@ -11,9 +12,11 @@ using RaizesDoNordeste.Infrastructure.DataAccess;
 namespace RaizesDoNordeste.Infrastructure.Migrations
 {
     [DbContext(typeof(RaizesDoNordesteDbContext))]
-    partial class RaizesDoNordesteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260523190506_pedido")]
+    partial class pedido
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,15 +31,10 @@ namespace RaizesDoNordeste.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("ProdutoId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UnidadeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProdutoId");
 
                     b.HasIndex("UnidadeId")
                         .IsUnique();
@@ -481,10 +479,6 @@ namespace RaizesDoNordeste.Infrastructure.Migrations
 
             modelBuilder.Entity("RaizesDoNordeste.Domain.Entities.Estoque", b =>
                 {
-                    b.HasOne("RaizesDoNordeste.Domain.Entities.Produto", null)
-                        .WithMany("Estoques")
-                        .HasForeignKey("ProdutoId");
-
                     b.HasOne("RaizesDoNordeste.Domain.Entities.Unidade", "Unidade")
                         .WithOne("Estoque")
                         .HasForeignKey("RaizesDoNordeste.Domain.Entities.Estoque", "UnidadeId")
@@ -555,11 +549,6 @@ namespace RaizesDoNordeste.Infrastructure.Migrations
             modelBuilder.Entity("RaizesDoNordeste.Domain.Entities.Pedido", b =>
                 {
                     b.Navigation("ItensPedido");
-                });
-
-            modelBuilder.Entity("RaizesDoNordeste.Domain.Entities.Produto", b =>
-                {
-                    b.Navigation("Estoques");
                 });
 
             modelBuilder.Entity("RaizesDoNordeste.Domain.Entities.Unidade", b =>

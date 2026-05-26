@@ -9,7 +9,9 @@ public class RaizesDoNordesteDbContextFactory : IDesignTimeDbContextFactory<Raiz
     public RaizesDoNordesteDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<RaizesDoNordesteDbContext>();
-        optionsBuilder.UseSqlServer("Server=localhost,1433;Database=master;User Id=sa;Password=p@55w0rd;TrustServerCertificate=True");
+        optionsBuilder.UseSqlServer(
+            "Server=localhost,1433;Database=master;User Id=sa;Password=p@55w0rd;TrustServerCertificate=True");
 
-        return new RaizesDoNordesteDbContext(optionsBuilder.Options); }
+        return new RaizesDoNordesteDbContext(optionsBuilder.Options);
+    }
 }

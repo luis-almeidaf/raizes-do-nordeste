@@ -1,12 +1,18 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using RaizesDoNordeste.Api.Filters;
+using RaizesDoNordeste.Api.Token;
 using RaizesDoNordeste.Application;
+using RaizesDoNordeste.Domain.Security.Tokens;
 using RaizesDoNordeste.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
+
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.Clear();
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
@@ -15,6 +21,8 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<ITokenContexto, HttpTokenContext>();
 
 builder.Services.AddSwaggerGen(config =>
 {

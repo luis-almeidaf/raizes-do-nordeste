@@ -104,5 +104,47 @@ namespace RaizesDoNordeste.Exceptions {
                 return ResourceManager.GetString("UNIDADE_NAO_ENCONTRADA", resourceCulture);
             }
         }
+        
+        public static string CANAL_PEDIDO_VAZIO {
+            get {
+                return ResourceManager.GetString("CANAL_PEDIDO_VAZIO", resourceCulture);
+            }
+        }
+        
+        public static string PEDIDO_SEM_ITENS {
+            get {
+                return ResourceManager.GetString("PEDIDO_SEM_ITENS", resourceCulture);
+            }
+        }
+        
+        public static string ESTOQUE_INSUFICIENTE {
+            get {
+                return ResourceManager.GetString("ESTOQUE_INSUFICIENTE", resourceCulture);
+            }
+        }
+        
+        public static string CANAL_PEDIDO_INVALIDO {
+            get {
+                return ResourceManager.GetString("CANAL_PEDIDO_INVALIDO", resourceCulture);
+            }
+        }
+        
+        public static string PRODUTO_NAO_DISPONIVEL {
+            get {
+                return ResourceManager.GetString("PRODUTO_NAO_DISPONIVEL", resourceCulture);
+            }
+        }
+        
+        public static string PRODUTO_ID_INVALIDO {
+            get {
+                return ResourceManager.GetString("PRODUTO_ID_INVALIDO", resourceCulture);
+            }
+        }
+        
+        public static string QUANTIDADE_INVALIDA {
+            get {
+                return ResourceManager.GetString("QUANTIDADE_INVALIDA", resourceCulture);
+            }
+        }
     }
 }

@@ -16,6 +16,7 @@ public class JwtTokenGenerator(uint expiracaoEmMinutos, string chaveAssinatura) 
         {
             new Claim(ClaimTypes.Name, usuario.Nome),
             new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
+            new Claim(ClaimTypes.Role, usuario.Role.ToString()),
         };
 
         var tokenDescriptor = new SecurityTokenDescriptor()
@@ -25,10 +26,10 @@ public class JwtTokenGenerator(uint expiracaoEmMinutos, string chaveAssinatura) 
             Subject = new ClaimsIdentity(claims)
         };
 
-        var tokenHanler = new JwtSecurityTokenHandler();
-        var securityToken = tokenHanler.CreateToken(tokenDescriptor);
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var securityToken = tokenHandler.CreateToken(tokenDescriptor);
 
-        return tokenHanler.WriteToken(securityToken);
+        return tokenHandler.WriteToken(securityToken);
     }
 
     public string GerarRefreshToken() => Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));

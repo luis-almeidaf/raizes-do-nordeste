@@ -54,4 +54,25 @@
     <data name="UNIDADE_NAO_ENCONTRADA" xml:space="preserve">
         <value>Unidade não encontrada.</value>
     </data>
+    <data name="CANAL_PEDIDO_VAZIO" xml:space="preserve">
+        <value>Informe um canal para o pedido.</value>
+    </data>
+    <data name="PEDIDO_SEM_ITENS" xml:space="preserve">
+        <value>Informe ao menos um item para o pedido.</value>
+    </data>
+    <data name="ESTOQUE_INSUFICIENTE" xml:space="preserve">
+        <value>Quantidade insuficiente para o produto - id: {0}.</value>
+    </data>
+    <data name="CANAL_PEDIDO_INVALIDO" xml:space="preserve">
+        <value>Informe um canal válido para o pedido.</value>
+    </data>
+    <data name="PRODUTO_NAO_DISPONIVEL" xml:space="preserve">
+        <value>Produto não disponível em estoque - id: {0}.</value>
+    </data>
+    <data name="PRODUTO_ID_INVALIDO" xml:space="preserve">
+        <value>Informe um id de produto válido.</value>
+    </data>
+    <data name="QUANTIDADE_INVALIDA" xml:space="preserve">
+        <value>A quantidade não pode ser um valor vazio e deve ser um valor maior que 0.</value>
+    </data>
 </root>
