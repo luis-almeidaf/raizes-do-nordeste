@@ -10,7 +10,9 @@ public class RaizesDoNordesteDbContext(DbContextOptions options) : DbContext(opt
     public DbSet<Unidade> Unidade { get; set; }
     public DbSet<Estoque> Estoque { get; set; }
     public DbSet<Produto> Produto { get; set; }
-    public DbSet<ItemEstoque> ItemEstoque { get; set; }
+    public DbSet<Pedido> Pedido { get; set; }
+    public DbSet<ItemPedido> ItensPedido { get; set; }
+    public DbSet<ItemEstoque> ItensEstoque { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -44,6 +46,26 @@ public class RaizesDoNordesteDbContext(DbContextOptions options) : DbContext(opt
                 .HasForeignKey(item => item.ProdutoId)
                 .OnDelete(DeleteBehavior.Cascade);
             entity.ToTable("ItensEstoque");
+        });
+
+        modelBuilder.Entity<Pedido>(entity =>
+        {
+            entity.HasKey(pedido => pedido.Id);
+            entity.Property(pedido => pedido.Status).HasConversion<string>();
+            entity.Property(pedido => pedido.CanalPedido).HasConversion<string>();
+        });
+
+        modelBuilder.Entity<ItemPedido>(entity =>
+        {
+            entity.HasKey(item => item.Id);
+            entity.HasOne(item => item.Produto)
+                .WithMany()
+                .HasForeignKey(item => item.ProdutoId).OnDelete(DeleteBehavior.NoAction);
+            entity.HasOne(item => item.Pedido)
+                .WithMany(pedido => pedido.ItensPedido)
+                .HasForeignKey(item => item.PedidoId)
+                .OnDelete(DeleteBehavior.Cascade);
+            entity.ToTable("ItensPedido");
         });
 
         modelBuilder.Entity<Unidade>().HasData(
