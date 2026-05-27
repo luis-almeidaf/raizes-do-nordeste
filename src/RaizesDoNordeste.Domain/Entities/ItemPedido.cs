@@ -7,8 +7,8 @@ public class ItemPedido
     public int ProdutoId { get; set; }
     public int Quantidade { get; set; }
 
-    public Pedido Pedido { get; set; }
-    public Produto Produto { get; set; }
+    public Pedido Pedido { get; set; } = null!;
+    public Produto Produto { get; set; } = null!;
 
     public static ItemPedido Criar(int produtoId, int quantidade) => new()
     {

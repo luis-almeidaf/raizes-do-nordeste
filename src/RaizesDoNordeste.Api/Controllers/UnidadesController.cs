@@ -45,6 +45,7 @@ public class UnidadesController(IMediator mediator) : ControllerBase
             CanalPedido = request.CanalPedido,
             ItensPedido = request.ItensPedido
         });
-        return Ok(response);
+
+        return Created(string.Empty, response);
     }
 }

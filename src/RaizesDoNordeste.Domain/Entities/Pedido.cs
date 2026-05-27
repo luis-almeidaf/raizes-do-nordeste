@@ -28,4 +28,6 @@ public class Pedido
     {
         foreach (var itemPedido in itensPedido) ItensPedido.Add(itemPedido);
     }
+
+    public void AtualizarStatus(Status novoStatus) => Status = novoStatus;
 }

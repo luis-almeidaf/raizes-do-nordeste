@@ -2,10 +2,10 @@ namespace RaizesDoNordeste.Domain.Enums;
 
 public enum Status
 {
-    AguardandoPagamento,
-    Pago,
-    PagamentoFalhou,
-    EmPreparo,
-    Pronto,
-    Cancelado
+    AguardandoPagamento = 1,
+    Pago = 2,
+    PagamentoFalhou = 3,
+    EmPreparo = 4,
+    Pronto = 5,
+    Cancelado = 6
 }
