@@ -75,4 +75,10 @@
     <data name="QUANTIDADE_INVALIDA" xml:space="preserve">
         <value>A quantidade não pode ser um valor vazio e deve ser um valor maior que 0.</value>
     </data>
+    <data name="PEDIDO_NAO_ENCONTRADO" xml:space="preserve">
+        <value>Nenhum pedido foi encontrado com o Id informado.</value>
+    </data>
+    <data name="PAGAMENTO_NAO_PODE_SER_PROCESSADO" xml:space="preserve">
+        <value>O pagamento já foi pago ou foi cancelado.</value>
+    </data>
 </root>
