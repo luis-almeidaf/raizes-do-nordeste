@@ -8,17 +8,20 @@ public class Pedido
     public Guid ClienteId { get; set; }
     public int UnidadeId { get; set; }
     public CanalPedido CanalPedido { get; set; }
+    public string FormaDePagamento { get; set; } = string.Empty;
     public Status Status { get; set; }
     public decimal ValorTotal { get; set; }
     public DateTime DataPedido { get; set; }
 
     public ICollection<ItemPedido> ItensPedido { get; set; } = [];
 
-    public static Pedido Criar(Guid clienteId, int unidadeId, CanalPedido canalPedido, decimal valorTotal) => new()
+    public static Pedido Criar(Guid clienteId, int unidadeId, CanalPedido canalPedido, string formaDePagamento,
+        decimal valorTotal) => new()
     {
         ClienteId = clienteId,
         UnidadeId = unidadeId,
         CanalPedido = canalPedido,
+        FormaDePagamento = formaDePagamento,
         Status = Status.AguardandoPagamento,
         ValorTotal = valorTotal,
         DataPedido = DateTime.UtcNow
