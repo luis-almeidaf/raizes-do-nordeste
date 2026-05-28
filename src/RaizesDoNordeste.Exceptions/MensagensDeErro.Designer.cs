@@ -176,5 +176,23 @@ namespace RaizesDoNordeste.Exceptions {
                 return ResourceManager.GetString("FORMA_DE_PAGAMENTO_VAZIA", resourceCulture);
             }
         }
+        
+        public static string OPERACAO_NAO_PERMITIDA {
+            get {
+                return ResourceManager.GetString("OPERACAO_NAO_PERMITIDA", resourceCulture);
+            }
+        }
+        
+        public static string STATUS_DO_PEDIDO_INVALIDO {
+            get {
+                return ResourceManager.GetString("STATUS_DO_PEDIDO_INVALIDO", resourceCulture);
+            }
+        }
+        
+        public static string STATUS_DO_PEDIDO_VAZIO {
+            get {
+                return ResourceManager.GetString("STATUS_DO_PEDIDO_VAZIO", resourceCulture);
+            }
+        }
     }
 }

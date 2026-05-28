@@ -2,6 +2,8 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RaizesDoNordeste.Application.Common.Responses;
+using RaizesDoNordeste.Application.Features.Pagamentos.Commands.ProcessarPagamento;
+using RaizesDoNordeste.Application.Features.Pedidos.Commands.AtualizarStatus;
 using RaizesDoNordeste.Application.Features.Pedidos.Commands.CriarPedido;
 using RaizesDoNordeste.Domain.Enums;
 
@@ -11,6 +13,9 @@ namespace RaizesDoNordeste.Api.Controllers;
 [ApiController]
 public class PedidosController(IMediator mediator) : ControllerBase
 {
+    private const string RolesOperacionais =
+        $"{nameof(Role.Atendente)},{nameof(Role.Cozinha)},{nameof(Role.Gerente)}";
+
     [HttpPost]
     [Authorize(Roles = nameof(Role.Cliente))]
     [ProducesResponseType(typeof(CriarPedidoResponse), StatusCodes.Status201Created)]
@@ -30,5 +35,26 @@ public class PedidosController(IMediator mediator) : ControllerBase
         });
 
         return Created(string.Empty, response);
+    }
+
+
+    [HttpPatch("{pedidoId:int}")]
+    [Authorize(Roles = RolesOperacionais)]
+    [ProducesResponseType(typeof(ProcessarPagamentoResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> AtualizarStatusDoPedido([FromRoute] int pedidoId,
+        [FromBody] AtualizarStatusRequest request)
+    {
+        var response = await mediator.Send(new AtualizarStatusCommand
+        {
+            PedidoId = pedidoId,
+            StatusPedido = request.StatusPedido
+        });
+
+        return Ok(response);
     }
 }
