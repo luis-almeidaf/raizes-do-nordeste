@@ -87,4 +87,7 @@
     <data name="STATUS_DO_PAGAMENTO_INVALIDO" xml:space="preserve">
         <value>Os status aceitos para pagamentos são: 1 para aprovado e 2 para recusado.</value>
     </data>
+    <data name="FORMA_DE_PAGAMENTO_VAZIA" xml:space="preserve">
+        <value>Informe qual vai ser a forma de pagamento.</value>
+    </data>
 </root>
