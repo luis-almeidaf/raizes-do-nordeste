@@ -17,12 +17,11 @@ public class AtualizarStatusCommandHandler(
         CancellationToken cancellationToken)
     {
         ValidarRequest(request);
+        
         var usuario = await usuarioContexto.BuscarUsuarioAutenticado();
-
         var pedido = await BuscarPedido(request.PedidoId, usuario.Id);
 
         ValidarUnidadeDoUsuarioEDoPedido(usuario, pedido);
-
         ValidarAtualizacaoDePedido(request, pedido);
 
         pedidoRepo.AtualizarPedido(pedido);
