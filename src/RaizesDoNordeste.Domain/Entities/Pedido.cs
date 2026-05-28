@@ -27,6 +27,8 @@ public class Pedido
         DataPedido = DateTime.UtcNow
     };
 
+    public bool PertenceAoUsuarioLogado(Guid clienteId) => clienteId == ClienteId;
+
     public void AdicionarItens(List<ItemPedido> itensPedido)
     {
         foreach (var itemPedido in itensPedido) ItensPedido.Add(itemPedido);

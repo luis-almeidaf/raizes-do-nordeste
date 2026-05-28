@@ -99,4 +99,7 @@
     <data name="STATUS_DO_PEDIDO_VAZIO" xml:space="preserve">
         <value>Informe um status para a atualização.</value>
     </data>
+    <data name="PEDIDO_NAO_PERTENCE_AO_USUARIO" xml:space="preserve">
+        <value>O pedido não pertence ao usuário autenticado.</value>
+    </data>
 </root>

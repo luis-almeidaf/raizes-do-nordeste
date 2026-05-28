@@ -19,38 +19,38 @@ public class ProcessarPagamentoCommandHandler(
         CancellationToken cancellationToken)
     {
         ValidarRequest(request);
+
         var usuario = await usuarioContexto.BuscarUsuarioAutenticado();
-
-        var pedido = await pedidoRepo.BuscarPorId(request.PedidoId, usuario.Id);
-        if (pedido is null) throw new PedidoNaoEncontradoException();
-
-        var produtosId = new List<int>(pedido.ItensPedido.Count);
-        produtosId.AddRange(pedido.ItensPedido.Select(item => item.ProdutoId));
-
-        var produtosNoEstoque = await produtoRepo.BuscarProdutosNoEstoque(produtosId, pedido.UnidadeId);
-        var quantidadesDeProdutosDoPedido =
-            pedido.ItensPedido.ToDictionary(item => item.ProdutoId, item => item.Quantidade);
+        var pedido = await BuscarPedido(request.PedidoId, usuario.Id);
 
         var pagamentoAprovado = ProcessarStatusDoPagamento(request.StatusPagamento, pedido);
         if (!pagamentoAprovado)
-            return ProcessarPagamentoResponse.Criar(pedido.Id, "Pagamento recusado");
+            return await RecusarPagamento(pedido);
 
-        DecrementarQuantidadesNoEstoque(produtosNoEstoque, quantidadesDeProdutosDoPedido);
+        await AtualizarEstoque(pedido);
         pedidoRepo.AtualizarPedido(pedido);
         await unitOfWork.Commit();
+
         return ProcessarPagamentoResponse.Criar(pedido.Id, "Pagamento aprovado");
     }
 
-    private static void DecrementarQuantidadesNoEstoque(List<ItemEstoque> produtosNoEstoque,
-        Dictionary<int, int> quantidadesDeProdutosDoPedido)
+    private static void ValidarRequest(ProcessarPagamentoCommand request)
     {
-        foreach (var produtoNoEstoque in produtosNoEstoque)
-        {
-            var quantidadeSolicitada = quantidadesDeProdutosDoPedido[produtoNoEstoque.ProdutoId];
+        var resultado = new ProcessarPagamentoValidator().Validate(request);
 
-            if (!produtoNoEstoque.DiminuirQuantidade(quantidadeSolicitada))
-                throw new EstoqueInsuficienteException(produtoNoEstoque.Produto.Id);
-        }
+        if (resultado.IsValid) return;
+
+        var erros = resultado.Errors.Select(erro => erro.ErrorMessage).ToList();
+        throw new ErroDeValidacaoException(erros);
+    }
+
+    private async Task<Pedido> BuscarPedido(int pedidoId, Guid usuarioId)
+    {
+        var pedido = await pedidoRepo.BuscarPorId(pedidoId, usuarioId);
+        if (pedido is null)
+            throw new PedidoNaoEncontradoException();
+
+        return !pedido.PertenceAoUsuarioLogado(usuarioId) ? throw new PedidoNaoPertenceAoUsuarioException() : pedido;
     }
 
     private static bool ProcessarStatusDoPagamento(StatusPagamento statusPagamentoRequest, Pedido pedido)
@@ -68,13 +68,31 @@ public class ProcessarPagamentoCommandHandler(
         return true;
     }
 
-    private static void ValidarRequest(ProcessarPagamentoCommand request)
+    private async Task<ProcessarPagamentoResponse> RecusarPagamento(Pedido pedido)
     {
-        var resultado = new ProcessarPagamentoValidator().Validate(request);
+        pedidoRepo.AtualizarPedido(pedido);
+        await unitOfWork.Commit();
+        return ProcessarPagamentoResponse.Criar(pedido.Id, "Pagamento recusado");
+    }
 
-        if (resultado.IsValid) return;
+    private async Task AtualizarEstoque(Pedido pedido)
+    {
+        var produtosId = pedido.ItensPedido.Select(item => item.ProdutoId).ToList();
+        var produtosNoEstoque = await produtoRepo.BuscarProdutosNoEstoque(produtosId, pedido.UnidadeId);
+        var quantidades = pedido.ItensPedido.ToDictionary(item => item.ProdutoId, item => item.Quantidade);
 
-        var erros = resultado.Errors.Select(erro => erro.ErrorMessage).ToList();
-        throw new ErroDeValidacaoException(erros);
+        DecrementarQuantidadesNoEstoque(produtosNoEstoque, quantidades);
+    }
+
+    private static void DecrementarQuantidadesNoEstoque(List<ItemEstoque> produtosNoEstoque,
+        Dictionary<int, int> quantidadesDeProdutosDoPedido)
+    {
+        foreach (var produtoNoEstoque in produtosNoEstoque)
+        {
+            var quantidadeSolicitada = quantidadesDeProdutosDoPedido[produtoNoEstoque.ProdutoId];
+
+            if (!produtoNoEstoque.DiminuirQuantidade(quantidadeSolicitada))
+                throw new EstoqueInsuficienteException(produtoNoEstoque.Produto.Id);
+        }
     }
 }

@@ -194,5 +194,11 @@ namespace RaizesDoNordeste.Exceptions {
                 return ResourceManager.GetString("STATUS_DO_PEDIDO_VAZIO", resourceCulture);
             }
         }
+        
+        public static string PEDIDO_NAO_PERTENCE_AO_USUARIO {
+            get {
+                return ResourceManager.GetString("PEDIDO_NAO_PERTENCE_AO_USUARIO", resourceCulture);
+            }
+        }
     }
 }

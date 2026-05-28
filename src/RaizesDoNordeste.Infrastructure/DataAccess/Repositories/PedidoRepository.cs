@@ -8,7 +8,7 @@ public class PedidoRepository(RaizesDoNordesteDbContext dbContext) : IPedidoWrit
 {
     public async Task<Pedido?> BuscarPorId(int pedidoId, Guid usuarioId) => await dbContext.Pedido
         .Include(p => p.ItensPedido).ThenInclude(itemPedido => itemPedido.Produto)
-        .FirstOrDefaultAsync(p => p.Id == pedidoId && p.ClienteId == usuarioId);
+        .FirstOrDefaultAsync(p => p.Id == pedidoId);
 
     public async Task Salvar(Pedido pedido) => await dbContext.Pedido.AddAsync(pedido);
 
