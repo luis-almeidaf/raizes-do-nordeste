@@ -26,7 +26,6 @@ public class CriarPedidoCommandHandler(
         var usuario = await usuarioContexto.BuscarUsuarioAutenticado();
 
         var itensDaRequest = request.ItensPedido;
-
         var produtosId = ListarProdutosId(itensDaRequest);
         var produtosNoEstoque = await produtoRepo.BuscarProdutosNoEstoque(produtosId, request.UnidadeId);
         var produtosEncontrados = produtosNoEstoque.Select(p => p.ProdutoId).ToList();
@@ -38,13 +37,13 @@ public class CriarPedidoCommandHandler(
         var valorTotal = CalcularValorTotalDoPedido(produtosNoEstoque, quantidadesDaRequest);
         var itensPedido = CriarItensPedido(itensDaRequest);
 
-        var pedido = Pedido.Criar(usuario.Id, request.UnidadeId, request.CanalPedido, valorTotal);
+        var pedido = Pedido.Criar(usuario.Id, request.UnidadeId, request.CanalPedido, request.FormaDePagamento,
+            valorTotal);
         pedido.AdicionarItens(itensPedido);
 
         await pedidoRepo.Salvar(pedido);
         await unitOfWork.Commit();
-        return CriarPedidoResponse.Criar(pedido.Id, pedido.ClienteId, pedido.UnidadeId, pedido.CanalPedido,
-            pedido.Status, pedido.ValorTotal);
+        return CriarPedidoResponse.Criar(pedido.Id, pedido.ClienteId, pedido.UnidadeId, pedido.ValorTotal);
     }
 
     private static List<int> ListarProdutosId(List<ItemPedidoRequest> itensDaRequest)

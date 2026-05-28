@@ -1,6 +1,6 @@
 namespace RaizesDoNordeste.Domain.Enums;
 
-public enum FormaDePagamento
+public enum StatusPagamento
 {
     MockAprovado = 1,
     MockRecusado = 2

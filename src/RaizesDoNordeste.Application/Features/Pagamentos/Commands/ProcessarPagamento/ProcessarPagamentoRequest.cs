@@ -4,5 +4,5 @@ namespace RaizesDoNordeste.Application.Features.Pagamentos.Commands.ProcessarPag
 
 public class ProcessarPagamentoRequest
 {
-    public FormaDePagamento FormaDePagamento { get; set; }
+    public StatusPagamento StatusPagamento { get; set; }
 }

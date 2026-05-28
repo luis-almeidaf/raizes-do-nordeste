@@ -8,4 +8,5 @@ public class CriarPedidoCommand : IRequest<CriarPedidoResponse>
     public CanalPedido CanalPedido;
     public List<ItemPedidoRequest> ItensPedido = [];
     public int UnidadeId;
+    public string FormaDePagamento { get; set; } = string.Empty;
 }

@@ -15,34 +15,45 @@ public class UnidadesController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
     [ProducesResponseType(typeof(BuscarUnidadesResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> BuscarUnidades()
     {
         var response = await mediator.Send(new BuscarUnidadesQuery());
-        return Ok(response);
+
+        if (response.Unidades.Count != 0)
+            return Ok(response);
+
+        return NoContent();
     }
 
     [HttpGet("{unidadeId:int}/cardapio")]
     [ProducesResponseType(typeof(BuscarCardapioResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> BuscarCardapio([FromRoute] int unidadeId)
     {
         var response = await mediator.Send(new BuscarCardapioQuery { UnidadeId = unidadeId });
-        return Ok(response);
+
+        if (response.Cardapio.Count != 0)
+            return Ok(response);
+
+        return NoContent();
     }
 
     [HttpPost("{unidadeId:int}/pedidos/")]
     [Authorize(Roles = nameof(Role.Cliente))]
     [ProducesResponseType(typeof(CriarPedidoResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status422UnprocessableEntity)]
+    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status409Conflict)]
     public async Task<IActionResult> CriarPedido([FromRoute] int unidadeId, [FromBody] CriarPedidoRequest request)
     {
         var response = await mediator.Send(new CriarPedidoCommand
         {
             UnidadeId = unidadeId,
             CanalPedido = request.CanalPedido,
+            FormaDePagamento = request.FormaDePagamento,
             ItensPedido = request.ItensPedido
         });
 

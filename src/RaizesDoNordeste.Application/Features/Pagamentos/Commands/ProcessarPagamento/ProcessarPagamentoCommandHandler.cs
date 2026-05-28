@@ -18,6 +18,7 @@ public class ProcessarPagamentoCommandHandler(
     public async Task<ProcessarPagamentoResponse> Handle(ProcessarPagamentoCommand request,
         CancellationToken cancellationToken)
     {
+        ValidarRequest(request);
         var usuario = await usuarioContexto.BuscarUsuarioAutenticado();
 
         var pedido = await pedidoRepo.BuscarPorId(request.PedidoId, usuario.Id);
@@ -30,14 +31,13 @@ public class ProcessarPagamentoCommandHandler(
         var quantidadesDeProdutosDoPedido =
             pedido.ItensPedido.ToDictionary(item => item.ProdutoId, item => item.Quantidade);
 
-        var pagamentoAprovado = ProcessarStatusDoPagamento(request.FormaDePagamento, pedido);
+        var pagamentoAprovado = ProcessarStatusDoPagamento(request.StatusPagamento, pedido);
         if (!pagamentoAprovado)
             return ProcessarPagamentoResponse.Criar(pedido.Id, "Pagamento recusado");
 
         DecrementarQuantidadesNoEstoque(produtosNoEstoque, quantidadesDeProdutosDoPedido);
         pedidoRepo.AtualizarPedido(pedido);
         await unitOfWork.Commit();
-
         return ProcessarPagamentoResponse.Criar(pedido.Id, "Pagamento aprovado");
     }
 
@@ -53,13 +53,12 @@ public class ProcessarPagamentoCommandHandler(
         }
     }
 
-    private static bool ProcessarStatusDoPagamento(
-        FormaDePagamento formaDePagamentoRequest, Pedido pedido)
+    private static bool ProcessarStatusDoPagamento(StatusPagamento statusPagamentoRequest, Pedido pedido)
     {
         if (pedido.Status != Status.AguardandoPagamento && pedido.Status != Status.PagamentoFalhou)
             throw new PagamentoNaoPodeSerProcessadoException();
 
-        if (formaDePagamentoRequest == FormaDePagamento.MockRecusado)
+        if (statusPagamentoRequest == StatusPagamento.MockRecusado)
         {
             pedido.AtualizarStatus(Status.PagamentoFalhou);
             return false;
@@ -67,5 +66,15 @@ public class ProcessarPagamentoCommandHandler(
 
         pedido.AtualizarStatus(Status.Pago);
         return true;
+    }
+
+    private static void ValidarRequest(ProcessarPagamentoCommand request)
+    {
+        var resultado = new ProcessarPagamentoValidator().Validate(request);
+
+        if (resultado.IsValid) return;
+
+        var erros = resultado.Errors.Select(erro => erro.ErrorMessage).ToList();
+        throw new ErroDeValidacaoException(erros);
     }
 }

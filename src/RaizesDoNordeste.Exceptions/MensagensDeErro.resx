@@ -79,6 +79,12 @@
         <value>Nenhum pedido foi encontrado com o Id informado.</value>
     </data>
     <data name="PAGAMENTO_NAO_PODE_SER_PROCESSADO" xml:space="preserve">
-        <value>O pagamento já foi pago ou foi cancelado.</value>
+        <value>O pedido já foi pago ou foi cancelado.</value>
+    </data>
+    <data name="STATUS_DO_PAGAMENTO_VAZIO" xml:space="preserve">
+        <value>Informe um status para o pagamento.</value>
+    </data>
+    <data name="STATUS_DO_PAGAMENTO_INVALIDO" xml:space="preserve">
+        <value>Os status aceitos para pagamentos são: 1 para aprovado e 2 para recusado.</value>
     </data>
 </root>

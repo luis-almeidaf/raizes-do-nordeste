@@ -5,7 +5,7 @@ public class Estoque
     public Guid Id { get; set; }
     public int UnidadeId { get; set; }
 
-    public Unidade Unidade { get; set; }
+    public Unidade Unidade { get; set; } = null!;
 
     private ICollection<ItemEstoque> Itens { get; } = [];
 

@@ -6,5 +6,5 @@ namespace RaizesDoNordeste.Application.Features.Pagamentos.Commands.ProcessarPag
 public class ProcessarPagamentoCommand : IRequest<ProcessarPagamentoResponse>
 {
     public int PedidoId { get; set; }
-    public FormaDePagamento FormaDePagamento { get; set; }
+    public StatusPagamento StatusPagamento { get; set; }
 }
