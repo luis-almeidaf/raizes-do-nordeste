@@ -46,7 +46,7 @@ public class ProcessarPagamentoCommandHandler(
 
     private async Task<Pedido> BuscarPedido(int pedidoId, Guid usuarioId)
     {
-        var pedido = await pedidoRepo.BuscarPorId(pedidoId, usuarioId);
+        var pedido = await pedidoRepo.BuscarPorId(pedidoId);
         if (pedido is null)
             throw new PedidoNaoEncontradoException();
 

@@ -19,9 +19,7 @@ public class AtualizarStatusCommandHandler(
         ValidarRequest(request);
         var usuario = await usuarioContexto.BuscarUsuarioAutenticado();
 
-        var pedido = await pedidoRepo.BuscarPorId(request.PedidoId, usuario.Id);
-        if (pedido == null)
-            throw new PedidoNaoEncontradoException();
+        var pedido = await BuscarPedido(request.PedidoId, usuario.Id);
 
         ValidarUnidadeDoUsuarioEDoPedido(usuario, pedido);
 
@@ -31,6 +29,25 @@ public class AtualizarStatusCommandHandler(
         await unitOfWork.Commit();
 
         return AtualizarStatusResponse.Criar(pedido.Status, "Pedido atualizado com sucesso");
+    }
+
+    private static void ValidarRequest(AtualizarStatusCommand request)
+    {
+        var resultado = new AtualizarStatusValidator().Validate(request);
+
+        if (resultado.IsValid) return;
+
+        var erros = resultado.Errors.Select(erro => erro.ErrorMessage).ToList();
+        throw new ErroDeValidacaoException(erros);
+    }
+
+    private async Task<Pedido> BuscarPedido(int pedidoId, Guid usuarioId)
+    {
+        var pedido = await pedidoRepo.BuscarPorId(pedidoId);
+        if (pedido is null)
+            throw new PedidoNaoEncontradoException();
+
+        return !pedido.PertenceAoUsuarioLogado(usuarioId) ? throw new PedidoNaoPertenceAoUsuarioException() : pedido;
     }
 
     private static void ValidarUnidadeDoUsuarioEDoPedido(Usuario usuario, Pedido pedido)
@@ -46,15 +63,5 @@ public class AtualizarStatusCommandHandler(
             pedido.AtualizarStatus(request.StatusPedido);
         else
             throw new OperacaoNaoPermitaException();
-    }
-
-    private static void ValidarRequest(AtualizarStatusCommand request)
-    {
-        var resultado = new AtualizarStatusValidator().Validate(request);
-
-        if (resultado.IsValid) return;
-
-        var erros = resultado.Errors.Select(erro => erro.ErrorMessage).ToList();
-        throw new ErroDeValidacaoException(erros);
     }
 }

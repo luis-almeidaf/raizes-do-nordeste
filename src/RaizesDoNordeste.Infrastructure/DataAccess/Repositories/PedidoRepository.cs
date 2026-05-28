@@ -6,7 +6,7 @@ namespace RaizesDoNordeste.Infrastructure.DataAccess.Repositories;
 
 public class PedidoRepository(RaizesDoNordesteDbContext dbContext) : IPedidoWriteOnlyRepository
 {
-    public async Task<Pedido?> BuscarPorId(int pedidoId, Guid usuarioId) => await dbContext.Pedido
+    public async Task<Pedido?> BuscarPorId(int pedidoId) => await dbContext.Pedido
         .Include(p => p.ItensPedido).ThenInclude(itemPedido => itemPedido.Produto)
         .FirstOrDefaultAsync(p => p.Id == pedidoId);
 
