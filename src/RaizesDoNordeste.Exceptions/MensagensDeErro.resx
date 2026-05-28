@@ -90,4 +90,13 @@
     <data name="FORMA_DE_PAGAMENTO_VAZIA" xml:space="preserve">
         <value>Informe qual vai ser a forma de pagamento.</value>
     </data>
+    <data name="OPERACAO_NAO_PERMITIDA" xml:space="preserve">
+        <value>Operação não permitida.</value>
+    </data>
+    <data name="STATUS_DO_PEDIDO_INVALIDO" xml:space="preserve">
+        <value>Os status aceitos para atualização são: 4 para em preparo e 5 para pronto.</value>
+    </data>
+    <data name="STATUS_DO_PEDIDO_VAZIO" xml:space="preserve">
+        <value>Informe um status para a atualização.</value>
+    </data>
 </root>

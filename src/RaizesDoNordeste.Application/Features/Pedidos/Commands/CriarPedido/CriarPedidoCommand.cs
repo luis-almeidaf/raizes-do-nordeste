@@ -1,7 +1,7 @@
 using MediatR;
 using RaizesDoNordeste.Domain.Enums;
 
-namespace RaizesDoNordeste.Application.Features.Unidades.Commands.CriarPedido;
+namespace RaizesDoNordeste.Application.Features.Pedidos.Commands.CriarPedido;
 
 public class CriarPedidoCommand : IRequest<CriarPedidoResponse>
 {
