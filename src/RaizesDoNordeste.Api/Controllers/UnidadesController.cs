@@ -1,11 +1,7 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RaizesDoNordeste.Application.Common.Responses;
-using RaizesDoNordeste.Application.Features.Unidades.Commands.CriarPedido;
 using RaizesDoNordeste.Application.Features.Unidades.Queries.BuscarCardapio;
 using RaizesDoNordeste.Application.Features.Unidades.Queries.BuscarUnidades;
-using RaizesDoNordeste.Domain.Enums;
 
 namespace RaizesDoNordeste.Api.Controllers;
 
@@ -37,26 +33,5 @@ public class UnidadesController(IMediator mediator) : ControllerBase
             return Ok(response);
 
         return NoContent();
-    }
-
-    [HttpPost("{unidadeId:int}/pedidos/")]
-    [Authorize(Roles = nameof(Role.Cliente))]
-    [ProducesResponseType(typeof(CriarPedidoResponse), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status409Conflict)]
-    public async Task<IActionResult> CriarPedido([FromRoute] int unidadeId, [FromBody] CriarPedidoRequest request)
-    {
-        var response = await mediator.Send(new CriarPedidoCommand
-        {
-            UnidadeId = unidadeId,
-            CanalPedido = request.CanalPedido,
-            FormaDePagamento = request.FormaDePagamento,
-            ItensPedido = request.ItensPedido
-        });
-
-        return Created(string.Empty, response);
     }
 }
