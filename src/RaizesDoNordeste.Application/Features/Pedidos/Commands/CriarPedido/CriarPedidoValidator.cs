@@ -1,7 +1,7 @@
 using FluentValidation;
 using RaizesDoNordeste.Exceptions;
 
-namespace RaizesDoNordeste.Application.Features.Unidades.Commands.CriarPedido;
+namespace RaizesDoNordeste.Application.Features.Pedidos.Commands.CriarPedido;
 
 public class CriarPedidoValidator : AbstractValidator<CriarPedidoCommand>
 {

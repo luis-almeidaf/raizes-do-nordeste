@@ -2,7 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RaizesDoNordeste.Application.Common.Responses;
-using RaizesDoNordeste.Application.Features.Unidades.Commands.CriarPedido;
+using RaizesDoNordeste.Application.Features.Pedidos.Commands.CriarPedido;
 using RaizesDoNordeste.Domain.Enums;
 
 namespace RaizesDoNordeste.Api.Controllers;

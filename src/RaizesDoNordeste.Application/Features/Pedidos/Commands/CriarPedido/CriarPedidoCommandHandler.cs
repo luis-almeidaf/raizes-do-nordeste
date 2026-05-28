@@ -7,7 +7,7 @@ using RaizesDoNordeste.Domain.Repositories.Produto;
 using RaizesDoNordeste.Domain.Repositories.Unidade;
 using RaizesDoNordeste.Exceptions.ExceptionsBase;
 
-namespace RaizesDoNordeste.Application.Features.Unidades.Commands.CriarPedido;
+namespace RaizesDoNordeste.Application.Features.Pedidos.Commands.CriarPedido;
 
 public class CriarPedidoCommandHandler(
     IUnitOfWork unitOfWork,
