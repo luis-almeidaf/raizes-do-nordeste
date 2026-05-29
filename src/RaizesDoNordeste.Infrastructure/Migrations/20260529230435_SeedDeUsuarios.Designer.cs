@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RaizesDoNordeste.Infrastructure.DataAccess;
 
@@ -11,9 +12,11 @@ using RaizesDoNordeste.Infrastructure.DataAccess;
 namespace RaizesDoNordeste.Infrastructure.Migrations
 {
     [DbContext(typeof(RaizesDoNordesteDbContext))]
-    partial class RaizesDoNordesteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260529230435_SeedDeUsuarios")]
+    partial class SeedDeUsuarios
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -517,8 +520,7 @@ namespace RaizesDoNordeste.Infrastructure.Migrations
                             Nome = "Cliente",
                             Role = 0,
                             Senha = "$2a$11$bAuOcT03JZKfYVZQ.lj5Ne8E06SrGLnghArbkEnc25s1hEJh6SLnq",
-                            Sobrenome = "Cliente",
-                            UnidadeId = 1
+                            Sobrenome = "Cliente"
                         },
                         new
                         {
@@ -527,8 +529,7 @@ namespace RaizesDoNordeste.Infrastructure.Migrations
                             Nome = "Atendente",
                             Role = 1,
                             Senha = "$2a$11$bAuOcT03JZKfYVZQ.lj5Ne8E06SrGLnghArbkEnc25s1hEJh6SLnq",
-                            Sobrenome = "Atendente",
-                            UnidadeId = 1
+                            Sobrenome = "Atendente"
                         },
                         new
                         {
@@ -537,8 +538,7 @@ namespace RaizesDoNordeste.Infrastructure.Migrations
                             Nome = "Cozinha",
                             Role = 2,
                             Senha = "$2a$11$bAuOcT03JZKfYVZQ.lj5Ne8E06SrGLnghArbkEnc25s1hEJh6SLnq",
-                            Sobrenome = "Cozinha",
-                            UnidadeId = 1
+                            Sobrenome = "Cozinha"
                         },
                         new
                         {
@@ -547,8 +547,7 @@ namespace RaizesDoNordeste.Infrastructure.Migrations
                             Nome = "Gerente",
                             Role = 3,
                             Senha = "$2a$11$bAuOcT03JZKfYVZQ.lj5Ne8E06SrGLnghArbkEnc25s1hEJh6SLnq",
-                            Sobrenome = "Gerente",
-                            UnidadeId = 1
+                            Sobrenome = "Gerente"
                         },
                         new
                         {
@@ -557,8 +556,7 @@ namespace RaizesDoNordeste.Infrastructure.Migrations
                             Nome = "Administrador",
                             Role = 4,
                             Senha = "$2a$11$bAuOcT03JZKfYVZQ.lj5Ne8E06SrGLnghArbkEnc25s1hEJh6SLnq",
-                            Sobrenome = "Administrador",
-                            UnidadeId = 1
+                            Sobrenome = "Administrador"
                         });
                 });
 

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RaizesDoNordeste.Domain.Entities;
+using RaizesDoNordeste.Domain.Enums;
 
 namespace RaizesDoNordeste.Infrastructure.DataAccess;
 
@@ -13,6 +14,7 @@ public class RaizesDoNordesteDbContext(DbContextOptions options) : DbContext(opt
     public DbSet<Pedido> Pedido { get; set; }
     public DbSet<ItemPedido> ItensPedido { get; set; }
     public DbSet<ItemEstoque> ItensEstoque { get; set; }
+    public DbSet<Auditoria> Auditoria { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -67,6 +69,40 @@ public class RaizesDoNordesteDbContext(DbContextOptions options) : DbContext(opt
                 .OnDelete(DeleteBehavior.Cascade);
             entity.ToTable("ItensPedido");
         });
+
+        modelBuilder.Entity<Usuario>().HasData(
+            new Usuario
+            {
+                Id = Guid.Parse("73396d14-99c3-49fc-b1ce-b052e5e5c50d"), Nome = "Cliente", Sobrenome = "Cliente",
+                Email = "cliente@email.com", Senha = "$2a$11$bAuOcT03JZKfYVZQ.lj5Ne8E06SrGLnghArbkEnc25s1hEJh6SLnq",
+                Role = Role.Cliente, UnidadeId = 1
+            },
+            new Usuario
+            {
+                Id = Guid.Parse("bea1c218-b855-4ca8-8358-6da9cb59f590"), Nome = "Atendente", Sobrenome = "Atendente",
+                Email = "atendente@email.com", Senha = "$2a$11$bAuOcT03JZKfYVZQ.lj5Ne8E06SrGLnghArbkEnc25s1hEJh6SLnq",
+                Role = Role.Atendente, UnidadeId = 1
+            },
+            new Usuario
+            {
+                Id = Guid.Parse("fc27019d-bbc4-45d5-b6c0-cf91d10828f5"), Nome = "Cozinha", Sobrenome = "Cozinha",
+                Email = "cozinha@email.com", Senha = "$2a$11$bAuOcT03JZKfYVZQ.lj5Ne8E06SrGLnghArbkEnc25s1hEJh6SLnq",
+                Role = Role.Cozinha, UnidadeId = 1
+            },
+            new Usuario
+            {
+                Id = Guid.Parse("99311212-2878-42c4-b5c4-6a2f79d3833d"), Nome = "Gerente", Sobrenome = "Gerente",
+                Email = "gerente@email.com", Senha = "$2a$11$bAuOcT03JZKfYVZQ.lj5Ne8E06SrGLnghArbkEnc25s1hEJh6SLnq",
+                Role = Role.Gerente, UnidadeId = 1
+            },
+            new Usuario
+            {
+                Id = Guid.Parse("ce08874a-8df3-4abe-abd6-587c22630cb1"), Nome = "Administrador",
+                Sobrenome = "Administrador",
+                Email = "admin@email.com", Senha = "$2a$11$bAuOcT03JZKfYVZQ.lj5Ne8E06SrGLnghArbkEnc25s1hEJh6SLnq",
+                Role = Role.Administrador, UnidadeId = 1
+            }
+        );
 
         modelBuilder.Entity<Unidade>().HasData(
             new Unidade { Id = 1, Nome = "Unidade Centro" },

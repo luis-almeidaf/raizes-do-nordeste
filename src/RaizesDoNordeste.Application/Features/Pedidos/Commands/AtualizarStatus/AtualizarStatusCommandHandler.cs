@@ -17,7 +17,7 @@ public class AtualizarStatusCommandHandler(
         CancellationToken cancellationToken)
     {
         ValidarRequest(request);
-        
+
         var usuario = await usuarioContexto.BuscarUsuarioAutenticado();
         var pedido = await BuscarPedido(request.PedidoId, usuario.Id);
 
@@ -43,16 +43,13 @@ public class AtualizarStatusCommandHandler(
     private async Task<Pedido> BuscarPedido(int pedidoId, Guid usuarioId)
     {
         var pedido = await pedidoRepo.BuscarPorId(pedidoId);
-        if (pedido is null)
-            throw new PedidoNaoEncontradoException();
-
-        return !pedido.PertenceAoUsuarioLogado(usuarioId) ? throw new PedidoNaoPertenceAoUsuarioException() : pedido;
+        return pedido ?? throw new PedidoNaoEncontradoException();
     }
 
     private static void ValidarUnidadeDoUsuarioEDoPedido(Usuario usuario, Pedido pedido)
     {
         if (usuario.UnidadeId != pedido.UnidadeId)
-            throw new OperacaoNaoPermitaException();
+            throw new OperacaoNaoPermitaException("O usuário não pertence a unidade do pedido");
     }
 
     private static void ValidarAtualizacaoDePedido(AtualizarStatusCommand request, Pedido pedido)
@@ -61,6 +58,7 @@ public class AtualizarStatusCommandHandler(
             (pedido.Status == Status.EmPreparo && request.StatusPedido == Status.Pronto))
             pedido.AtualizarStatus(request.StatusPedido);
         else
-            throw new OperacaoNaoPermitaException();
+            throw new OperacaoNaoPermitaException(
+                $"Pedido com status {pedido.Status} não pode ser alterado para {request.StatusPedido}.");
     }
 }

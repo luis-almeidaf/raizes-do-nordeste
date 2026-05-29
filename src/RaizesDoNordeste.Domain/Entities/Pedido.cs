@@ -30,11 +30,19 @@ public class Pedido
     public void CalcularValorTotal() =>
         ValorTotal = ItensPedido.Sum(itemPedido => itemPedido.PrecoUnitario * itemPedido.Quantidade);
 
-
     public void AdicionarItens(List<ItemPedido> itensPedido)
     {
         foreach (var itemPedido in itensPedido) ItensPedido.Add(itemPedido);
     }
 
     public void AtualizarStatus(Status novoStatus) => Status = novoStatus;
+
+    public bool Cancelar()
+    {
+        if (Status is Status.EmPreparo or Status.Pronto)
+            return false;
+        
+        Status = Status.Cancelado;
+        return true;
+    }
 }

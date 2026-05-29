@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RaizesDoNordeste.Infrastructure.DataAccess;
 
@@ -11,9 +12,11 @@ using RaizesDoNordeste.Infrastructure.DataAccess;
 namespace RaizesDoNordeste.Infrastructure.Migrations
 {
     [DbContext(typeof(RaizesDoNordesteDbContext))]
-    partial class RaizesDoNordesteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260529224730_Auditoria")]
+    partial class Auditoria
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -508,58 +511,6 @@ namespace RaizesDoNordeste.Infrastructure.Migrations
                     b.HasIndex("UnidadeId");
 
                     b.ToTable("Usuarios");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("73396d14-99c3-49fc-b1ce-b052e5e5c50d"),
-                            Email = "cliente@email.com",
-                            Nome = "Cliente",
-                            Role = 0,
-                            Senha = "$2a$11$bAuOcT03JZKfYVZQ.lj5Ne8E06SrGLnghArbkEnc25s1hEJh6SLnq",
-                            Sobrenome = "Cliente",
-                            UnidadeId = 1
-                        },
-                        new
-                        {
-                            Id = new Guid("bea1c218-b855-4ca8-8358-6da9cb59f590"),
-                            Email = "atendente@email.com",
-                            Nome = "Atendente",
-                            Role = 1,
-                            Senha = "$2a$11$bAuOcT03JZKfYVZQ.lj5Ne8E06SrGLnghArbkEnc25s1hEJh6SLnq",
-                            Sobrenome = "Atendente",
-                            UnidadeId = 1
-                        },
-                        new
-                        {
-                            Id = new Guid("fc27019d-bbc4-45d5-b6c0-cf91d10828f5"),
-                            Email = "cozinha@email.com",
-                            Nome = "Cozinha",
-                            Role = 2,
-                            Senha = "$2a$11$bAuOcT03JZKfYVZQ.lj5Ne8E06SrGLnghArbkEnc25s1hEJh6SLnq",
-                            Sobrenome = "Cozinha",
-                            UnidadeId = 1
-                        },
-                        new
-                        {
-                            Id = new Guid("99311212-2878-42c4-b5c4-6a2f79d3833d"),
-                            Email = "gerente@email.com",
-                            Nome = "Gerente",
-                            Role = 3,
-                            Senha = "$2a$11$bAuOcT03JZKfYVZQ.lj5Ne8E06SrGLnghArbkEnc25s1hEJh6SLnq",
-                            Sobrenome = "Gerente",
-                            UnidadeId = 1
-                        },
-                        new
-                        {
-                            Id = new Guid("ce08874a-8df3-4abe-abd6-587c22630cb1"),
-                            Email = "admin@email.com",
-                            Nome = "Administrador",
-                            Role = 4,
-                            Senha = "$2a$11$bAuOcT03JZKfYVZQ.lj5Ne8E06SrGLnghArbkEnc25s1hEJh6SLnq",
-                            Sobrenome = "Administrador",
-                            UnidadeId = 1
-                        });
                 });
 
             modelBuilder.Entity("RaizesDoNordeste.Domain.Entities.Estoque", b =>
