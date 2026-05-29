@@ -18,45 +18,52 @@ public class CriarPedidoCommandHandler(
 {
     public async Task<CriarPedidoResponse> Handle(CriarPedidoCommand request, CancellationToken cancellationToken)
     {
-        var unidade = await unidadeRepo.BuscarUnidadePorId(request.UnidadeId);
-        if (unidade == null) throw new UnidadeNaoEncontradaException();
-
         ValidarRequest(request);
-
+        await BuscarUnidade(request.UnidadeId);
         var usuario = await usuarioContexto.BuscarUsuarioAutenticado();
 
-        var itensDaRequest = request.ItensPedido;
-        var produtosId = ListarProdutosId(itensDaRequest);
+        var produtosId = request.ItensPedido.Select(item => item.ProdutoId).ToList();
         var produtosNoEstoque = await produtoRepo.BuscarProdutosNoEstoque(produtosId, request.UnidadeId);
-        var produtosEncontrados = produtosNoEstoque.Select(p => p.ProdutoId).ToList();
-        ValidarSeProdutoExisteNoEstoque(produtosId, produtosEncontrados);
+        ValidarSeProdutoExisteNoEstoque(produtosId, produtosNoEstoque);
 
-        var quantidadesDaRequest = itensDaRequest.ToDictionary(item => item.ProdutoId, item => item.Quantidade);
+        var quantidadesDaRequest = request.ItensPedido.ToDictionary(item => item.ProdutoId, item => item.Quantidade);
         ValidarQuantidadesNoEstoque(produtosNoEstoque, quantidadesDaRequest);
 
-        var valorTotal = CalcularValorTotalDoPedido(produtosNoEstoque, quantidadesDaRequest);
-        var itensPedido = CriarItensPedido(itensDaRequest);
+        var itensPedido = CriarItensPedido(request.ItensPedido, produtosNoEstoque);
 
-        var pedido = Pedido.Criar(usuario.Id, request.UnidadeId, request.CanalPedido, request.FormaDePagamento,
-            valorTotal);
+        var pedido = Pedido.Criar(usuario.Id, request.UnidadeId, request.CanalPedido, request.FormaDePagamento);
         pedido.AdicionarItens(itensPedido);
+        pedido.CalcularValorTotal();
 
         await pedidoRepo.Salvar(pedido);
         await unitOfWork.Commit();
+
         return CriarPedidoResponse.Criar(pedido.Id, pedido.ClienteId, pedido.UnidadeId, pedido.ValorTotal);
     }
 
-    private static List<int> ListarProdutosId(List<ItemPedidoRequest> itensDaRequest)
+    private static void ValidarRequest(CriarPedidoCommand request)
     {
-        var produtosId = new List<int>(itensDaRequest.Count);
-        produtosId.AddRange(itensDaRequest.Select(item => item.ProdutoId));
-        return produtosId;
+        var resultado = new CriarPedidoValidator().Validate(request);
+
+        if (resultado.IsValid) return;
+
+        var erros = resultado.Errors.Select(erro => erro.ErrorMessage).ToList();
+        throw new ErroDeValidacaoException(erros);
     }
 
-    private static void ValidarSeProdutoExisteNoEstoque(List<int> produtosId, List<int> produtosEncontrados)
+    private async Task BuscarUnidade(int unidadeId)
     {
+        if (await unidadeRepo.BuscarUnidadePorId(unidadeId) == null)
+            throw new UnidadeNaoEncontradaException();
+    }
+
+
+    private static void ValidarSeProdutoExisteNoEstoque(List<int> produtosId, List<ItemEstoque> produtosNoEstoque)
+    {
+        var idDosProdutosEncontrados = produtosNoEstoque.Select(p => p.ProdutoId).ToList();
+
         foreach (var produtoId in produtosId)
-            if (!produtosEncontrados.Contains(produtoId))
+            if (!idDosProdutosEncontrados.Contains(produtoId))
                 throw new ProdutoNaoDisponivelEmEstoque(produtoId);
     }
 
@@ -72,32 +79,17 @@ public class CriarPedidoCommandHandler(
         }
     }
 
-    private static decimal CalcularValorTotalDoPedido(List<ItemEstoque> produtosNoEstoque,
-        Dictionary<int, int> quantidadesDaRequest)
+    private static List<ItemPedido> CriarItensPedido(List<ItemPedidoRequest> itensDaRequest,
+        List<ItemEstoque> itensEstoque)
     {
-        decimal valorTotal = 0;
-        foreach (var produtoNoEstoque in produtosNoEstoque)
+        var itensPedido = new List<ItemPedido>();
+
+        foreach (var itemRequest in itensDaRequest)
         {
-            var quantidadeSolicitada = quantidadesDaRequest[produtoNoEstoque.ProdutoId];
-            var precoDoProduto = produtoNoEstoque.Produto.Preco;
-            valorTotal += precoDoProduto * quantidadeSolicitada;
+            var itemEstoque = itensEstoque.First(ie => ie.ProdutoId == itemRequest.ProdutoId);
+            itensPedido.Add(ItemPedido.Criar(itemRequest.ProdutoId, itemEstoque.Produto.Preco, itemRequest.Quantidade));
         }
 
-        return valorTotal;
-    }
-
-    private static List<ItemPedido> CriarItensPedido(List<ItemPedidoRequest> itensDaRequest)
-    {
-        return itensDaRequest.Select(item => ItemPedido.Criar(item.ProdutoId, item.Quantidade)).ToList();
-    }
-
-    private static void ValidarRequest(CriarPedidoCommand request)
-    {
-        var resultado = new CriarPedidoValidator().Validate(request);
-
-        if (resultado.IsValid) return;
-
-        var erros = resultado.Errors.Select(erro => erro.ErrorMessage).ToList();
-        throw new ErroDeValidacaoException(erros);
+        return itensPedido;
     }
 }

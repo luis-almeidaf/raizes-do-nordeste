@@ -15,19 +15,21 @@ public class Pedido
 
     public ICollection<ItemPedido> ItensPedido { get; set; } = [];
 
-    public static Pedido Criar(Guid clienteId, int unidadeId, CanalPedido canalPedido, string formaDePagamento,
-        decimal valorTotal) => new()
+    public static Pedido Criar(Guid clienteId, int unidadeId, CanalPedido canalPedido, string formaDePagamento) => new()
     {
         ClienteId = clienteId,
         UnidadeId = unidadeId,
         CanalPedido = canalPedido,
         FormaDePagamento = formaDePagamento,
         Status = Status.AguardandoPagamento,
-        ValorTotal = valorTotal,
         DataPedido = DateTime.UtcNow
     };
 
     public bool PertenceAoUsuarioLogado(Guid clienteId) => clienteId == ClienteId;
+
+    public void CalcularValorTotal() =>
+        ValorTotal = ItensPedido.Sum(itemPedido => itemPedido.PrecoUnitario * itemPedido.Quantidade);
+
 
     public void AdicionarItens(List<ItemPedido> itensPedido)
     {
