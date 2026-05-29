@@ -4,12 +4,12 @@ namespace RaizesDoNordeste.Domain.Entities;
 
 public class Usuario
 {
-    public Guid Id { get; private set; }
-    public string Nome { get; private set; } = string.Empty;
-    public string Sobrenome { get; private set; } = string.Empty;
-    public string Email { get; private set; } = string.Empty;
-    public string Senha { get; private set; } = string.Empty;
-    public Role Role { get; private set; }
+    public Guid Id { get; set; }
+    public string Nome { get; set; } = string.Empty;
+    public string Sobrenome { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string Senha { get; set; } = string.Empty;
+    public Role Role { get; set; }
 
     public int? UnidadeId { get; init; }
     public Unidade? Unidade { get; init; }
