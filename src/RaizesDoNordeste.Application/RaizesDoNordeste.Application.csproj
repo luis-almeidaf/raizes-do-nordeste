@@ -7,17 +7,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\RaizesDoNordeste.Domain\RaizesDoNordeste.Domain.csproj" />
-      <ProjectReference Include="..\RaizesDoNordeste.Exceptions\RaizesDoNordeste.Exceptions.csproj" />
+        <ProjectReference Include="..\RaizesDoNordeste.Domain\RaizesDoNordeste.Domain.csproj"/>
+        <ProjectReference Include="..\RaizesDoNordeste.Exceptions\RaizesDoNordeste.Exceptions.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="FluentValidation" Version="12.1.1" />
-      <PackageReference Include="MediatR" Version="14.1.0" />
+        <PackageReference Include="FluentValidation" Version="12.1.1"/>
+        <PackageReference Include="MediatR" Version="14.1.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Pedidos\" />
+        <Folder Include="Features\Pedidos\"/>
+        <Folder Include="Features\Pedidos\Queries\BuscarPedidoPorId\Responses\"/>
     </ItemGroup>
 
 </Project>

@@ -1,7 +1,8 @@
+using RaizesDoNordeste.Application.Common.Responses;
 using RaizesDoNordeste.Domain.Entities;
 using RaizesDoNordeste.Domain.Enums;
 
-namespace RaizesDoNordeste.Application.Features.Pedidos.Queries;
+namespace RaizesDoNordeste.Application.Features.Pedidos.Queries.BuscarPedidoPorId;
 
 public class BuscarPedidoPorIdResponse
 {
