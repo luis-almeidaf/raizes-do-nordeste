@@ -4,11 +4,22 @@ using RaizesDoNordeste.Domain.Repositories.Pedido;
 
 namespace RaizesDoNordeste.Infrastructure.DataAccess.Repositories;
 
-public class PedidoRepository(RaizesDoNordesteDbContext dbContext) : IPedidoWriteOnlyRepository
+public class PedidoRepository(RaizesDoNordesteDbContext dbContext)
+    : IPedidoWriteOnlyRepository, IPedidoReadOnlyRepository
 {
-    public async Task<Pedido?> BuscarPorId(int pedidoId) => await dbContext.Pedido
-        .Include(p => p.ItensPedido).ThenInclude(itemPedido => itemPedido.Produto)
-        .FirstOrDefaultAsync(p => p.Id == pedidoId);
+    Task<Pedido?> IPedidoReadOnlyRepository.BuscarPorId(int pedidoId, Guid usuarioId)
+    {
+        return dbContext.Pedido
+            .AsNoTracking().Include(pedido => pedido.ItensPedido).ThenInclude(itemPedido => itemPedido.Produto)
+            .FirstOrDefaultAsync(pedido => pedido.Id == pedidoId && pedido.ClienteId == usuarioId);
+    }
+
+    async Task<Pedido?> IPedidoWriteOnlyRepository.BuscarPorId(int pedidoId)
+    {
+        return await dbContext.Pedido
+            .Include(p => p.ItensPedido).ThenInclude(itemPedido => itemPedido.Produto)
+            .FirstOrDefaultAsync(p => p.Id == pedidoId);
+    }
 
     public async Task Salvar(Pedido pedido) => await dbContext.Pedido.AddAsync(pedido);
 

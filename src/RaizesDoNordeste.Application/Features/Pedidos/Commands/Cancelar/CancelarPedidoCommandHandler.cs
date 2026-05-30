@@ -25,7 +25,7 @@ public class CancelarPedidoCommandHandler(
         var auditoria = Auditoria.Criar(pedido.ClienteId, pedido.UnidadeId, "Cancelamento");
 
         pedidoRepo.AtualizarPedido(pedido);
-        auditoriaRepo.Salvar(auditoria);
+        await auditoriaRepo.Salvar(auditoria);
         await unitOfWork.Commit();
 
         return CancelarPedidoResponse.Criar("Pedido cancelado");
