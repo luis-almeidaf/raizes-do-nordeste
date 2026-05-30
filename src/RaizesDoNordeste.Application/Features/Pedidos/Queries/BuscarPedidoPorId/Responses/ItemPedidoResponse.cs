@@ -1,4 +1,4 @@
-namespace RaizesDoNordeste.Application.Features.Pedidos.Queries;
+namespace RaizesDoNordeste.Application.Features.Pedidos.Queries.BuscarPedidoPorId.Responses;
 
 public class ItemPedidoResponse
 {

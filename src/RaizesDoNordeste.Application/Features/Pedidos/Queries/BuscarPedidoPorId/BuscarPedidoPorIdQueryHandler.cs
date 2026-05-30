@@ -4,12 +4,12 @@ using RaizesDoNordeste.Domain.Identity;
 using RaizesDoNordeste.Domain.Repositories.Pedido;
 using RaizesDoNordeste.Exceptions.ExceptionsBase;
 
-namespace RaizesDoNordeste.Application.Features.Pedidos.Queries;
+namespace RaizesDoNordeste.Application.Features.Pedidos.Queries.BuscarPedidoPorId;
 
-public class BuscarPedidoPorIdCommandHandler(IUsuarioContexto usuarioContexto, IPedidoReadOnlyRepository pedidoRepo)
-    : IRequestHandler<BuscarPedidoPorIdCommand, BuscarPedidoPorIdResponse>
+public class BuscarPedidoPorIdQueryHandler(IUsuarioContexto usuarioContexto, IPedidoReadOnlyRepository pedidoRepo)
+    : IRequestHandler<BuscarPedidoPorIdQuery, BuscarPedidoPorIdResponse>
 {
-    public async Task<BuscarPedidoPorIdResponse> Handle(BuscarPedidoPorIdCommand request,
+    public async Task<BuscarPedidoPorIdResponse> Handle(BuscarPedidoPorIdQuery request,
         CancellationToken cancellationToken)
     {
         var usuario = await usuarioContexto.BuscarUsuarioAutenticado();
