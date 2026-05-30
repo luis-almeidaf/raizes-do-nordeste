@@ -5,7 +5,8 @@ using RaizesDoNordeste.Application.Common.Responses;
 using RaizesDoNordeste.Application.Features.Pedidos.Commands.AtualizarStatus;
 using RaizesDoNordeste.Application.Features.Pedidos.Commands.Cancelar;
 using RaizesDoNordeste.Application.Features.Pedidos.Commands.CriarPedido;
-using RaizesDoNordeste.Application.Features.Pedidos.Queries;
+using RaizesDoNordeste.Application.Features.Pedidos.Queries.BuscarPedidoPorId;
+using RaizesDoNordeste.Application.Features.Pedidos.Queries.BuscarPedidosCliente;
 using RaizesDoNordeste.Domain.Enums;
 
 namespace RaizesDoNordeste.Api.Controllers;
@@ -86,11 +87,27 @@ public class PedidosController(IMediator mediator) : ControllerBase
     [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> BuscarPedidoPorId([FromRoute] int pedidoId)
     {
-        var response = await mediator.Send(new BuscarPedidoPorIdCommand
+        var response = await mediator.Send(new BuscarPedidoPorIdQuery
         {
             PedidoId = pedidoId
         });
 
         return Ok(response);
+    }
+
+    [HttpGet("meus")]
+    [Authorize(Roles = nameof(Role.Cliente))]
+    [ProducesResponseType(typeof(BuscarPedidosClienteResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status403Forbidden)]
+    public async Task<IActionResult> BuscarPedidos([FromQuery] BuscarPedidosClienteQuery query)
+    {
+        var response = await mediator.Send(query);
+
+        if (response.Itens.Count != 0)
+            return Ok(response);
+
+        return NoContent();
     }
 }
