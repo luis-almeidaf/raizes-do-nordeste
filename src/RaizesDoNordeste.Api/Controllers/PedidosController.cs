@@ -41,13 +41,14 @@ public class PedidosController(IMediator mediator) : ControllerBase
 
     [HttpPatch("atualizar-status/{pedidoId:int}")]
     [Authorize(Roles = RolesOperacionais)]
-    [ProducesResponseType(typeof(ProcessarPagamentoResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(AtualizarStatusResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status409Conflict)]
-    public async Task<IActionResult> AtualizarStatusDoPedido([FromRoute] int pedidoId,
+    public async Task<IActionResult> AtualizarStatusDoPedido(
+        [FromRoute] int pedidoId,
         [FromBody] AtualizarStatusRequest request)
     {
         var response = await mediator.Send(new AtualizarStatusCommand
@@ -61,8 +62,7 @@ public class PedidosController(IMediator mediator) : ControllerBase
 
     [HttpPatch("cancelar/{pedidoId:int}")]
     [Authorize(Roles = nameof(Role.Cliente))]
-    [ProducesResponseType(typeof(ProcessarPagamentoResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(CancelarPedidoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status404NotFound)]
