@@ -1,7 +1,7 @@
 using RaizesDoNordeste.Domain.Entities;
 using RaizesDoNordeste.Domain.Enums;
 
-namespace RaizesDoNordeste.Application.Features.Pedidos.Queries.BuscarPedidosCliente.Responses;
+namespace RaizesDoNordeste.Application.Common.Responses;
 
 public class PedidosResponse
 {
@@ -13,7 +13,7 @@ public class PedidosResponse
     public Status Status { get; set; }
     public decimal ValorTotal { get; set; }
     public DateTime DataPedido { get; set; }
-    public ICollection<ItemPedidoClienteResponse> ItensPedido { get; set; } = new List<ItemPedidoClienteResponse>();
+    public ICollection<ItemPedidoResponse> ItensPedido { get; set; } = new List<ItemPedidoResponse>();
 
     public static PedidosResponse Criar(Pedido pedido, List<ItemPedido> itensPedido) => new()
     {
@@ -28,10 +28,10 @@ public class PedidosResponse
         ItensPedido = ConverterParaItensPedidoResponse(itensPedido)
     };
 
-    private static List<ItemPedidoClienteResponse> ConverterParaItensPedidoResponse(IEnumerable<ItemPedido> itensPedido)
+    private static List<ItemPedidoResponse> ConverterParaItensPedidoResponse(IEnumerable<ItemPedido> itensPedido)
     {
         return itensPedido.Select(itemPedido =>
-            ItemPedidoClienteResponse.Criar(itemPedido.ProdutoId, itemPedido.Produto.Nome, itemPedido.Quantidade,
+            ItemPedidoResponse.Criar(itemPedido.ProdutoId, itemPedido.Produto.Nome, itemPedido.Quantidade,
                 itemPedido.PrecoUnitario)).ToList();
     }
 }

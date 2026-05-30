@@ -1,4 +1,4 @@
-using RaizesDoNordeste.Application.Features.Pedidos.Queries.BuscarPedidoPorId.Responses;
+using RaizesDoNordeste.Application.Common.Responses;
 using RaizesDoNordeste.Domain.Entities;
 using RaizesDoNordeste.Domain.Enums;
 

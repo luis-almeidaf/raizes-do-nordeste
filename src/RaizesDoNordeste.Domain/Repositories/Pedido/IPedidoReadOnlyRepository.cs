@@ -8,4 +8,7 @@ public interface IPedidoReadOnlyRepository
 
     public Task<(List<Entities.Pedido>, int Total)> BuscarPedidosDoCliente(Guid usuarioId, int pagina,
         int tamanhoPagina, Status? status);
+
+    public Task<(List<Entities.Pedido>, int Total)> BuscarPedidosUnidade(int? unidadeId, int pagina,
+        int tamanhoPagina, Status? status, CanalPedido? canalPedido);
 }

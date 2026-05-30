@@ -1,5 +1,5 @@
 using RaizesDoNordeste.Application.Common.Pagination;
-using RaizesDoNordeste.Application.Features.Pedidos.Queries.BuscarPedidosCliente.Responses;
+using RaizesDoNordeste.Application.Common.Responses;
 
 namespace RaizesDoNordeste.Application.Features.Pedidos.Queries.BuscarPedidosCliente;
 

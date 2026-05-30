@@ -1,26 +1,29 @@
 using MediatR;
 using RaizesDoNordeste.Application.Common.Responses;
+using RaizesDoNordeste.Domain.Enums;
 using RaizesDoNordeste.Domain.Identity;
 using RaizesDoNordeste.Domain.Repositories.Pedido;
 
-namespace RaizesDoNordeste.Application.Features.Pedidos.Queries.BuscarPedidosCliente;
+namespace RaizesDoNordeste.Application.Features.Pedidos.Queries.BuscarPedidosUnidade;
 
-public class BuscarPedidosClienteQueryHandler(
-    IPedidoReadOnlyRepository pedidoRepo,
-    IUsuarioContexto usuarioContexto)
-    : IRequestHandler<BuscarPedidosClienteQuery, BuscarPedidosClienteResponse>
+public class BuscarPedidosUnidadeQueryHandler(
+    IUsuarioContexto usuarioContexto,
+    IPedidoReadOnlyRepository pedidoRepo)
+    : IRequestHandler<BuscarPedidosUnidadeQuery, BuscarPedidosUnidadeResponse>
 {
-    public async Task<BuscarPedidosClienteResponse> Handle(BuscarPedidosClienteQuery request,
+    public async Task<BuscarPedidosUnidadeResponse> Handle(BuscarPedidosUnidadeQuery request,
         CancellationToken cancellationToken)
     {
         var usuario = await usuarioContexto.BuscarUsuarioAutenticado();
+        var unidadeId = usuario.Role == Role.Administrador ? null : usuario.UnidadeId;
 
         var (listaDePedidos, total) =
-            await pedidoRepo.BuscarPedidosDoCliente(usuario.Id, request.Pagina, request.TamanhoPagina, request.Status);
+            await pedidoRepo.BuscarPedidosUnidade(unidadeId, request.Pagina, request.TamanhoPagina,
+                request.Status, request.CanalPedido);
 
         var resultado = listaDePedidos.Select(pedido => PedidosResponse.Criar(pedido, pedido.ItensPedido.ToList()));
 
-        return new BuscarPedidosClienteResponse
+        return new BuscarPedidosUnidadeResponse
         {
             Itens = resultado.ToList(),
             Pagina = request.Pagina,

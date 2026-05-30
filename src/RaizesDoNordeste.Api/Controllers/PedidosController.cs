@@ -7,6 +7,7 @@ using RaizesDoNordeste.Application.Features.Pedidos.Commands.Cancelar;
 using RaizesDoNordeste.Application.Features.Pedidos.Commands.CriarPedido;
 using RaizesDoNordeste.Application.Features.Pedidos.Queries.BuscarPedidoPorId;
 using RaizesDoNordeste.Application.Features.Pedidos.Queries.BuscarPedidosCliente;
+using RaizesDoNordeste.Application.Features.Pedidos.Queries.BuscarPedidosUnidade;
 using RaizesDoNordeste.Domain.Enums;
 
 namespace RaizesDoNordeste.Api.Controllers;
@@ -15,8 +16,11 @@ namespace RaizesDoNordeste.Api.Controllers;
 [ApiController]
 public class PedidosController(IMediator mediator) : ControllerBase
 {
-    private const string RolesOperacionais =
+    private const string RolesOperacionaisUnidades =
         $"{nameof(Role.Atendente)},{nameof(Role.Cozinha)},{nameof(Role.Gerente)}";
+
+    private const string RolesOperacionaisTotal =
+        $"{nameof(Role.Atendente)},{nameof(Role.Cozinha)},{nameof(Role.Gerente)},{nameof(Role.Administrador)}";
 
     [HttpPost]
     [Authorize(Roles = nameof(Role.Cliente))]
@@ -41,7 +45,7 @@ public class PedidosController(IMediator mediator) : ControllerBase
 
 
     [HttpPatch("atualizar-status/{pedidoId:int}")]
-    [Authorize(Roles = RolesOperacionais)]
+    [Authorize(Roles = RolesOperacionaisUnidades)]
     [ProducesResponseType(typeof(AtualizarStatusResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status401Unauthorized)]
@@ -70,14 +74,10 @@ public class PedidosController(IMediator mediator) : ControllerBase
     [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status409Conflict)]
     public async Task<IActionResult> CancelarPedido([FromRoute] int pedidoId)
     {
-        var response = await mediator.Send(new CancelarPedidoCommand
-        {
-            PedidoId = pedidoId
-        });
+        var response = await mediator.Send(new CancelarPedidoCommand { PedidoId = pedidoId });
 
         return Ok(response);
     }
-
 
     [HttpGet("{pedidoId:int}")]
     [Authorize(Roles = nameof(Role.Cliente))]
@@ -87,12 +87,26 @@ public class PedidosController(IMediator mediator) : ControllerBase
     [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> BuscarPedidoPorId([FromRoute] int pedidoId)
     {
-        var response = await mediator.Send(new BuscarPedidoPorIdQuery
-        {
-            PedidoId = pedidoId
-        });
+        var response = await mediator.Send(new BuscarPedidoPorIdQuery { PedidoId = pedidoId });
 
         return Ok(response);
+    }
+
+    [HttpGet]
+    [Authorize(Roles = RolesOperacionaisTotal)]
+    [ProducesResponseType(typeof(BuscarPedidosUnidadeResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status403Forbidden)]
+    public async Task<IActionResult> BuscarPedidosUnidade([FromQuery] BuscarPedidosUnidadeQuery query)
+    {
+        Console.WriteLine(RolesOperacionaisTotal);
+        var response = await mediator.Send(query);
+
+        if (response.Itens.Count != 0)
+            return Ok(response);
+
+        return NoContent();
     }
 
     [HttpGet("meus")]
@@ -101,7 +115,7 @@ public class PedidosController(IMediator mediator) : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status403Forbidden)]
-    public async Task<IActionResult> BuscarPedidos([FromQuery] BuscarPedidosClienteQuery query)
+    public async Task<IActionResult> BuscarPedidosCliente([FromQuery] BuscarPedidosClienteQuery query)
     {
         var response = await mediator.Send(query);
 

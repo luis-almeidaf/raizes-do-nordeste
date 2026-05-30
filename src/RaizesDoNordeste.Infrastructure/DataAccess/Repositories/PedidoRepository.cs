@@ -31,6 +31,23 @@ public class PedidoRepository(RaizesDoNordesteDbContext dbContext)
         return (pedidosDoCliente, total);
     }
 
+    public async Task<(List<Pedido>, int Total)> BuscarPedidosUnidade(int? unidadeId, int pagina, int tamanhoPagina,
+        Status? status, CanalPedido? canalPedido)
+    {
+        IQueryable<Pedido> query = dbContext.Pedido.AsNoTracking()
+            .Include(pedido => pedido.ItensPedido).ThenInclude(itemPedido => itemPedido.Produto)
+            .OrderByDescending(pedido => pedido.DataPedido);
+
+        if (unidadeId != null) query = query.Where(pedido => pedido.UnidadeId == unidadeId);
+        if (status != null) query = query.Where(pedido => pedido.Status == status);
+        if (canalPedido != null) query = query.Where(pedido => pedido.CanalPedido == canalPedido);
+
+        var total = await query.CountAsync();
+        var pedidosDoCliente = await query.Skip((pagina - 1) * tamanhoPagina).Take(tamanhoPagina).ToListAsync();
+
+        return (pedidosDoCliente, total);
+    }
+
     async Task<Pedido?> IPedidoWriteOnlyRepository.BuscarPorId(int pedidoId)
     {
         return await dbContext.Pedido
