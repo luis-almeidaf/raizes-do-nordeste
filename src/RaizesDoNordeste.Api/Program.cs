@@ -24,25 +24,18 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<ITokenContexto, HttpTokenContext>();
 
-builder.Services.AddSwaggerGen(config =>
+builder.Services.AddSwaggerGen(options =>
 {
-    const string bearer = "Bearer";
-    config.AddSecurityDefinition(bearer, new OpenApiSecurityScheme
+    options.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
     {
-        Name = "Authorization",
         Type = SecuritySchemeType.Http,
         Scheme = "bearer",
         BearerFormat = "JWT",
-        In = ParameterLocation.Header,
-        Description = "Digite o token JWT"
+        Description = "Insira o Token JWT."
     });
-
-    config.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+    options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
     {
-        {
-            new OpenApiSecuritySchemeReference(bearer),
-            new List<string>(Array.Empty<string>())
-        }
+        [new OpenApiSecuritySchemeReference("bearer", document)] = []
     });
 });
 
