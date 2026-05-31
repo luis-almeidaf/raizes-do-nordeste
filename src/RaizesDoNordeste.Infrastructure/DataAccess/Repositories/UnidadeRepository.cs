@@ -11,11 +11,12 @@ public class UnidadeRepository(RaizesDoNordesteDbContext dbContext) : IUnidadeRe
     public Task<Unidade?> BuscarUnidadePorId(int unidadeId) =>
         dbContext.Unidade.AsNoTracking().FirstOrDefaultAsync(u => u.Id == unidadeId);
 
-    public Task<List<ItemEstoque>> BuscarItensEstoque(int unidadeId) => dbContext.ItensEstoque
-        .Where(item => item.Estoque.UnidadeId == unidadeId && item.Quantidade > 0)
-        .Include(item => item.Estoque)
-        .ThenInclude(estoque => estoque.Unidade)
-        .Include(itemEstoque => itemEstoque.Produto)
-        .OrderBy(itemEstoque => itemEstoque.ProdutoId)
-        .ToListAsync();
+    public Task<List<ItemEstoque>> BuscarItensEstoque(int unidadeId)
+    {
+        return dbContext.ItensEstoque
+            .Where(item => item.Estoque.UnidadeId == unidadeId && item.Quantidade > 0)
+            .Include(item => item.Produto)
+            .OrderBy(item => item.ProdutoId)
+            .ToListAsync();
+    }
 }

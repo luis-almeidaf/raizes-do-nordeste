@@ -29,7 +29,7 @@ public class PedidosController(IMediator mediator) : ControllerBase
     [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status409Conflict)]
+    [ProducesResponseType(typeof(ErroBaseResponse), StatusCodes.Status422UnprocessableEntity)]
     public async Task<IActionResult> CriarPedido([FromBody] CriarPedidoRequest request)
     {
         var response = await mediator.Send(new CriarPedidoCommand

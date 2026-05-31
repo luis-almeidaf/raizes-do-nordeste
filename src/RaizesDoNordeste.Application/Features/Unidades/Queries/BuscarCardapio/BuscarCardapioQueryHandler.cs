@@ -14,7 +14,7 @@ public class BuscarCardapioQueryHandler(IUnidadeReadOnlyRepository repository)
         if (unidade == null) throw new UnidadeNaoEncontradaException();
 
         var itensEstoque = await repository.BuscarItensEstoque(request.UnidadeId);
-        var unidadeNome = itensEstoque[0].Estoque.Unidade.Nome;
+        var unidadeNome = unidade.Nome;
         var cardapio = new List<ItemCardapioResponse>(itensEstoque.Count);
 
         cardapio.AddRange(itensEstoque.Select(item =>
