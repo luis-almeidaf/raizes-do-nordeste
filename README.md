@@ -68,8 +68,8 @@ Para facilitar os testes dos endpoints da API, seguem a coleção de rotas (Coll
 ### 1. Baixar os arquivos do projeto
 Os arquivos necessários estão localizados na pasta `postman` deste repositório. Você pode baixá-los diretamente através dos links abaixo:
 
-* [Clique aqui para baixar a Collection](./postman/RaizesDoNordeste.postman_collection.json)
-* [Clique aqui para baixar o Environment (Ambiente)](./postman/Local.postman_environment.json)
+* [Clique aqui para baixar a Collection](./postman/raizes-do-nordeste.postman_collection.json)
+* [Clique aqui para baixar o Environment (Ambiente)](./postman/local.postman_environment.json)
 
 *(Nota: Se o arquivo abrir como texto no seu navegador, clique com o botão direito na página e selecione "Salvar como..." para salvar o arquivo com a extensão `.json`)*
 
