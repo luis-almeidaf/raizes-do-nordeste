@@ -59,3 +59,35 @@ docker compose up
 Uma vez que a aplicação esteja rodando, você pode acessar a documentação interativa do Swagger em:
 
 http://localhost:5298/swagger/index.html
+
+---
+Se preferir é possível testar a API com o Postman.
+
+Para facilitar os testes dos endpoints da API, seguem a coleção de rotas (Collection) e a configuração do ambiente local (Environment).
+
+### 1. Baixar os arquivos do projeto
+Os arquivos necessários estão localizados na pasta `postman` deste repositório. Você pode baixá-los diretamente através dos links abaixo:
+
+* [Clique aqui para baixar a Collection](./postman/RaizesDoNordeste.postman_collection.json)
+* [Clique aqui para baixar o Environment (Ambiente)](./postman/Local.postman_environment.json)
+
+*(Nota: Se o arquivo abrir como texto no seu navegador, clique com o botão direito na página e selecione "Salvar como..." para salvar o arquivo com a extensão `.json`)*
+
+---
+
+### 2. Importar no Postman
+
+1. Abra o aplicativo do **Postman**.
+2. No canto superior esquerdo da tela, clique no botão **Import** (ou use o atalho `Ctrl + O`).
+3. Arraste e solte os dois arquivos JSON baixados para dentro da janela de importação, ou clique em **Files** para selecioná-los no seu computador.
+4. Clique no botão **Import** para confirmar.
+
+---
+
+### 3. Selecionar e Configurar o Ambiente
+
+Após a importação, você precisa ativar o ambiente para que as rotas saibam para onde enviar as requisições (`http://localhost:5298`):
+
+1. No canto superior direito do Postman, localize um menu suspenso que por padrão exibe **No Environment**.
+2. Clique nesse menu e selecione o ambiente correspondente ao projeto (ex: **Raízes do Nordeste - Local**).
+3. escolha um endpoint e clique em **Send** para testar!
