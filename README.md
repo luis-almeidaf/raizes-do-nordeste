@@ -71,7 +71,7 @@ Os arquivos necessários estão localizados na pasta `postman` deste repositóri
 * [Clique aqui para baixar a Collection](./postman/raizes-do-nordeste.postman_collection.json)
 * [Clique aqui para baixar o Environment (Ambiente)](./postman/local.postman_environment.json)
 
-* No canto superior clique no botão com ícone de download, chamado Download Raw File, e salvo os respectivos arquvios.
+* No canto superior clique no botão com ícone de download, chamado Download Raw File, e salvo os respectivos arquivos.
 ---
 
 ### 2. Importar no Postman
