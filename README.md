@@ -85,8 +85,6 @@ Os arquivos necessários estão localizados na pasta `postman` deste repositóri
 
 ### 3. Selecionar e Configurar o Ambiente
 
-Após a importação, você precisa ativar o ambiente para que as rotas saibam para onde enviar as requisições (`http://localhost:5298`):
-
 1. No canto superior direito do Postman, localize um menu suspenso que por padrão exibe **No Environment**.
 2. Clique nesse menu e selecione o ambiente correspondente ao projeto (ex: **Raízes do Nordeste - Local**).
 3. escolha um endpoint e clique em **Send** para testar!
