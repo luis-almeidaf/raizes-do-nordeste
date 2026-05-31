@@ -46,7 +46,7 @@ public class RaizesDoNordesteDbContext(DbContextOptions options) : DbContext(opt
             entity.HasOne(item => item.Produto)
                 .WithMany()
                 .HasForeignKey(item => item.ProdutoId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
             entity.ToTable("ItensEstoque");
         });
 
